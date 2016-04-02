@@ -1,16 +1,24 @@
-/* globals skrollr, Swiper */
+/* globals skrollr, $ */
 
 var s = skrollr.init({
   forceHeight: false
 });
 
-var mySwiper = new Swiper('.swiper-container', {
-  // Optional parameters
-  direction: 'horizontal',
-  loop: true,
-  slidesPerView: 3,
-  centeredSlides: true,
-
-  // If we need pagination
-  pagination: '.swiper-pagination'
-});
+(function() {
+  $('.projects__slider').slick({
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: true,
+    responsive: [
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+})();

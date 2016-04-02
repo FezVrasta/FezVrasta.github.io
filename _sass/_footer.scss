@@ -1,0 +1,12 @@
+.footer {
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  margin: 4em 0;
+
+  &__credit {
+    margin: 0 1em;
+  }
+}

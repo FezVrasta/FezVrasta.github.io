@@ -20,3 +20,31 @@ a {
 p {
   line-height: 1.4em;
 }
+
+[data-whatinput="mouse"] * {
+  outline: none;
+}
+
+
+.button {
+  cursor: pointer;
+  color: $color-accent;
+  background: transparent;
+  display: inline-block;
+  padding: 0.5em 1em;
+  border-radius: 2px;
+  box-shadow: 0 0 1px 0 $color-accent;
+  border: 0;
+  transition: background .2s ease-in-out;
+  &:hover, &:focus {
+    background-color: fade-out($color-accent, 0.9);
+  }
+  &:active {
+    background-color: fade-out($color-accent, 0.7);
+  }
+
+  &--big {
+    font-size: 1.3em;
+    font-family: $font-family-light;
+  }
+}

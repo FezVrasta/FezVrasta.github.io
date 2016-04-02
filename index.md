@@ -10,4 +10,10 @@ layout: default
   {% include projects.md %}
 </div>
 
+<div class="contact">
+  {% include contact.md %}
+</div>
+
+{% include footer.md %}
+
 {% include scripts.html %}

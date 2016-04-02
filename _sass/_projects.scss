@@ -4,6 +4,7 @@
   filter: drop-shadow(0px 0px 7px rgba(0,0,0,0.5));
   user-select: none;
   padding-bottom: 1em;
+  margin-bottom: 10vh;
   z-index: 1;
   &:before {
     content: '';
@@ -14,6 +15,19 @@
     transform: rotate(1.4deg);
     background: $color-main;
     top: -8vh;
+    position: absolute;
+    z-index: -1;
+    left: -5px;
+  }
+  &:after {
+    content: '';
+    width: calc(100vw + 5px);
+    display: block;
+    height: 10vh;
+    transform-origin: left;
+    transform: rotate(-1.4deg);
+    background: $color-main;
+    bottom: -8vh;
     position: absolute;
     z-index: -1;
     left: -5px;
@@ -31,27 +45,35 @@
 
   &__slider {
     margin: 2em;
-    padding-bottom: 3em;
+  }
+
+  &__more {
+    color: white;
+    text-align: center;
+    margin: 1em 0;
+  }
+  &__more-description {
+    margin-bottom: 2em;
   }
 }
 
 .project {
   color: white;
   height: 300px;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   transform: scale(0.7);
-  transition: transform .2s ease-in-out;
+  transition: all .2s ease-in-out;
   background: rgba(255,255,255,0.05);
   border-radius: 2px;
-  &__content {
-    margin: 2em;
-  }
-  &.swiper-slide-active {
+  padding: 2em;
+  opacity: 0.6;
+  &.slick-center {
     transform: scale(1);
+    opacity: 1;
   }
 
   &__title {
@@ -61,17 +83,61 @@
     font-family: $font-family-light;
     letter-spacing: 0.3em;
   }
+  &__description {
+    margin-bottom: 2em;
+  }
+}
 
-  &__button {
-    display: inline-block;
-    padding: 0.5em 1em;
-    border-radius: 2px;
-    box-shadow: 0 0 1px 0 $color-accent;
+.slick-arrow {
+  font-size: 0;
+  border: 0;
+  background: none;
+  width: 50px;
+  opacity: 0.8;
+  position: absolute;
+  height: 364px;
+  background-position: center;
+  background-repeat: no-repeat;
+  top: 0;
+  z-index: 1;
+  cursor: pointer;
+  transition: opacity .2s ease-in-out;
+  &:hover, &:focus {
+    opacity: 1;
+  }
+  &.slick-prev {
+    background-image: url(../images/chevron-left.svg);
+    left: 0;
+  }
+  &.slick-next {
+    background-image: url(../images/chevron-right.svg);
+    right: 0;
+  }
+}
+
+.slick-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  button {
     border: 0;
-    margin-top: 2em;
+    margin: 5px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 100%;
+    font-size: 0;
+    width: 15px;
+    height: 15px;
     transition: background .2s ease-in-out;
+    cursor: pointer;
     &:hover, &:focus {
       background-color: fade-out($color-accent, 0.9);
     }
   }
+  .slick-active button {
+    background-color: $color-accent;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .slick-arrow { display: none !important; }
 }

@@ -17,5 +17,3 @@ github_username:  FezVrasta
 # Build settings
 markdown: kramdown
 
-gems:
-  - octopress-autoprefixer
