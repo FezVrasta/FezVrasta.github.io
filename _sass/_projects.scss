@@ -1,6 +1,7 @@
 .projects {
   position: relative;
   background-color: $color-main;
+  -webkit-filter: drop-shadow(0px 0px 7px rgba(0,0,0,0.5));
   filter: drop-shadow(0px 0px 7px rgba(0,0,0,0.5));
   user-select: none;
   padding-bottom: 1em;
