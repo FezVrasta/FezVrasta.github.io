@@ -11,7 +11,7 @@
 
 <div class="user-card__social">
     {% for social in site.data.about.social %}
-      <a class="user-card__social-icon" href="{{social.url}}" title="{{social.name}}">
+      <a class="user-card__social-icon" href="{{social.url}}" target="_blank" title="{{social.name}}">
         {% include {{social.icon}} %}
       </a>
     {% endfor %}
