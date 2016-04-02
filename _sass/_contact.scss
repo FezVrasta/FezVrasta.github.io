@@ -32,6 +32,7 @@
     margin-bottom: 1em;
     display: flex;
     flex: 1;
+    align-items: center;
   }
 
   &__field {
@@ -49,5 +50,9 @@
 
   &__submit {
     margin: 0 0.5em;
+  }
+
+  &__alert {
+    color: white;
   }
 }

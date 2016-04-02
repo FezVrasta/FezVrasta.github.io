@@ -21,4 +21,28 @@ var s = skrollr.init({
       }
     ]
   });
+
+  var $contactForm = $('.contact__form');
+  var $contactOutput = $('.js-contact-output');
+  $contactForm.submit(function(e) {
+    e.preventDefault();
+    var url = $contactForm.attr('action');
+    $.ajax({
+      url: url,
+      method: 'POST',
+      data: $(this).serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+        $contactOutput.append('<div class="contact__alert contact__alert--loading">Sending message…</div>');
+      },
+      success: function(data) {
+        $contactOutput.find('.contact__alert--loading').hide();
+        $contactOutput.append('<div class="contact__alert contact__alert--success">Message sent!</div>');
+      },
+      error: function(err) {
+        $contactOutput.find('.contact__alert--loading').hide();
+        $contactOutput.append('<div class="contact__alert contact__alert--error">Ops, there was an error.</div>');
+      }
+    });
+  });
 })();
