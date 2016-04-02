@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'work_sansextralight';
+  src: url('../fonts/worksans-extralight.eot');
+  src: url('../fonts/worksans-extralight.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/worksans-extralight.woff2') format('woff2'),
+    url('../fonts/worksans-extralight.woff') format('woff'),
+    url('../fonts/worksans-extralight.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'work_sanslight';
+  src: url('../fonts/worksans-light.eot');
+  src: url('../fonts/worksans-light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/worksans-light.woff2') format('woff2'),
+    url('../fonts/worksans-light.woff') format('woff'),
+    url('../fonts/worksans-light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'work_sansmedium';
+  src: url('../fonts/worksans-medium.eot');
+  src: url('../fonts/worksans-medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/worksans-medium.woff2') format('woff2'),
+    url('../fonts/worksans-medium.woff') format('woff'),
+    url('../fonts/worksans-medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'work_sansregular';
+  src: url('../fonts/worksans-regular.eot');
+  src: url('../fonts/worksans-regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/worksans-regular.woff2') format('woff2'),
+    url('../fonts/worksans-regular.woff') format('woff'),
+    url('../fonts/worksans-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+$font-family-light:  'work_sansextralight', 'Helvetica Neue', Helvetica, Segoe UI, Ubuntu, Arial, sans-serif;
+$font-family-regular: 'work_sanslight', 'Helvetica Neue', Helvetica, Segoe UI, Ubuntu, Arial, sans-serif;
+$font-family-semibold: 'work_sansregular', 'Helvetica Neue', Helvetica, Segoe UI, Ubuntu, Arial, sans-serif;

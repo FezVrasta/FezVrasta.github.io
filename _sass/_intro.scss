@@ -1,0 +1,12 @@
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  will-change: background opacity;
+  transform: translate3d(0,0,0);
+}

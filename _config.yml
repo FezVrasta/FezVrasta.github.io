@@ -1,0 +1,21 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Federico "Fez Vrasta" Zivolo | Portfolio
+email: federico.zivolo@gmail.com
+description: Federico "Fez Vrasta" Zivolo's Portfolio
+baseurl: ""
+url: "https://fezvrasta.github.io"
+twitter_username: FezVr4sta
+github_username:  FezVrasta
+
+# Build settings
+markdown: kramdown
+
+gems:
+  - octopress-autoprefixer

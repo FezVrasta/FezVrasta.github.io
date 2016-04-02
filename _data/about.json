@@ -1,0 +1,24 @@
+{
+  "name": "Federico Zivolo",
+  "nickname": "Fez Vrasta",
+  "title": "Front-End Developer at Sysdig",
+  "avatar1": "images/avatar1.jpg",
+  "avatar2": "images/avatar2.jpg",
+  "social": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/FezVrasta",
+      "icon": "icon-github.svg"
+    },
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/FezVr4sta",
+      "icon": "icon-twitter.svg"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://linkedin.com/in/fezvrasta",
+      "icon": "icon-linkedin.svg"
+    }
+  ]
+}

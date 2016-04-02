@@ -1,0 +1,93 @@
+.user-card {
+  width: 340px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.1em;
+  perspective: 1000;
+
+  &__avatar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+    user-select: none;
+    height: calc(122px + 2em);
+
+    &:hover &-flipper{
+      transform: rotateY(180deg);
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -2em;
+      right: -2em;
+      border-bottom: 1px solid $color-main;
+    }
+  }
+  &__avatar-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    border-radius: 100%;
+    width: 122px;
+    height: 122px;
+    margin: 1em;
+    left: calc(50% - (122px / 2) - 1em);
+    backface-visibility: hidden;
+    pointer-events: none;
+
+    &--front {
+      z-index: 2;
+    }
+    &--back {
+      transform: rotateY(180deg);
+    }
+    &--white {
+      background: #FFF;
+      z-index: 0;
+      padding: 1em;
+      margin: 0;
+    }
+  }
+  &__name {
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+    font-size: 2em;
+  }
+  &__title {
+    text-transform: uppercase;
+  }
+
+  &__avatar-flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  &__social {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2em;
+    justify-content: center;
+  }
+  &__social-icon {
+    margin: 0.5em;
+    > svg {
+      width: 30px;
+    }
+    path {
+      transition: .2s ease-out;
+    }
+    &:hover path {
+      fill: #2B2330;
+    }
+  }
+}

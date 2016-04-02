@@ -1,0 +1,22 @@
+body {
+  background-color: $color-main;
+  font-family: $font-family-regular;
+  background-image: url('../images/background-blur.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+a {
+  color: $color-accent;
+  text-decoration: none;
+  border-bottom: dotted 1px fade-out($color-accent, 0.4);
+  transition: border .2s ease-out;
+  &:hover {
+    border-bottom-color: fade-out($color-accent, 0.2);
+  }
+}
+
+p {
+  line-height: 1.4em;
+}

@@ -1,0 +1,13 @@
+---
+layout: default
+---
+
+<div class="intro" data--30p-center="background-color: rgba(0,0,0,0); opacity: 1;" data-center-bottom="background-color: rgba(0,0,0,0.5); opacity: 0.2;">
+  {% include user-card.md %}
+</div>
+
+<div class="projects">
+  {% include projects.md %}
+</div>
+
+{% include scripts.html %}
