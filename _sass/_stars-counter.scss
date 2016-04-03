@@ -1,0 +1,10 @@
+.stars-counter {
+  margin-bottom: 1em;
+  &__star {
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+  &__number {
+    vertical-align: middle;
+  }
+}

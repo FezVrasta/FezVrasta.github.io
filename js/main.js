@@ -45,4 +45,26 @@ var s = skrollr.init({
       }
     });
   });
+
+  // get stars number
+  // slick slider duplicates the items to simulate the infinite slide, we then want to make an ajax request for each project
+  // and not for each card, otherwise we'll end up making a lot of useless requests
+  var stars = {};
+  $('.stars-counter').each(function() {
+    var author = $(this).attr('data-author');
+    var project = $(this).attr('data-project');
+    var field = $(this).find('.stars-counter__number');
+    var path = author + '/' + project;
+    if (!stars[path]) {
+      stars[path] = true;
+      $.get('https://apis.github.com/repos/' + path, function(data) {
+        stars[path] = data.stargazers_count;
+      }).fail(function() {
+        stars[path] = '?';
+      }).always(function() {
+        $('.stars-counter[data-author="' + author + '"][data-project="' + project + '"] .stars-counter__number').text(stars[path]);
+      });
+    }
+  });
+
 })();

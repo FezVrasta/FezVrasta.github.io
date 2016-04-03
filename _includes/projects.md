@@ -4,6 +4,10 @@
   {% for project in site.data.projects.projects %}
     <article class="project">
       <h2 class="project__title">{{ project.name }}</h2>
+      <div class="stars-counter" data-author="{{ project.author}}" data-project="{{ project.project }}">
+        {% include star.svg %}
+        <span class="stars-counter__number"></span>
+      </div>
       <p class="project__description">{{ project.description }}</p>
       <a class="button" href="{{ project.url }}" target="_blank">Visit the project page</a>
     </article>

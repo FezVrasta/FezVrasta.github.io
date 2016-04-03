@@ -3,32 +3,37 @@
     {
       "name": "Popper.js",
       "description": "Easily position tooltip, popovers and so on with just a line of code!",
-      "url": "http://fezvrasta.github.io/popper.js"
+      "url": "http://fezvrasta.github.io/popper.js",
+      "author": "FezVrasta",
+      "project": "popper.js"
     },
     {
       "name": "Bootstrap Material Design",
       "description": "The easiest way to Material Design in your Bootstrap application.",
-      "url": "http://fezvrasta.github.io/bootstrap-material-design"
+      "url": "http://fezvrasta.github.io/bootstrap-material-design",
+      "author": "FezVrasta",
+      "project": "bootstrap-material-design"
     },
     {
       "name": "Snackbar.js",
       "description": "Create snackbars and toasts with ease.",
-      "url": "http://fezvrasta.github.io/snackbarjs"
-    },
-    {
-      "name": "Popper.js",
-      "description": "Easily position tooltip, popovers and so on with just a line of code!",
-      "url": "http://fezvrasta.github.io/popper.js"
+      "url": "http://fezvrasta.github.io/snackbarjs",
+      "author": "FezVrasta",
+      "project": "snackbarjs"
     },
     {
       "name": "Dropdown.js",
       "description": "A dropdown plugin that does what you expect.",
-      "url": "https://github.com/FezVrasta/dropdown.js"
+      "url": "https://github.com/FezVrasta/dropdown.js",
+      "author": "FezVrasta",
+      "project": "dropdown.js"
     },
     {
       "name": "Gist Manager",
       "description": "View and create gists within Brackets editor.",
-      "url": "https://github.com/FezVrasta/gist-manager"
+      "url": "https://github.com/FezVrasta/gist-manager",
+      "author": "FezVrasta",
+      "project": "gist-manager"
     }
   ]
 }
