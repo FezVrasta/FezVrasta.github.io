@@ -18,6 +18,7 @@ body {
     background-position: center;
     will-change: opacity;
     transform: translate3d(0,0,0);
+    z-index: -1;
   }
 }
 _::-webkit-full-page-media, _:future, :root body {
