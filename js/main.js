@@ -5,6 +5,9 @@ var s = skrollr.init({
 });
 
 (function() {
+
+  $('.user-card').css('display', 'flex');
+
   $('.projects__slider').slick({
     dots: true,
     infinite: true,

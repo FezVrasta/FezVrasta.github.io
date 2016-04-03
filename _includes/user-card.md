@@ -1,8 +1,8 @@
 <div class="perspective-fixed">
   <section class="user-card"
     data-20p="transform: scale(1);"
-    data-99p="transform: scale(0.8); display: flex;"
-    data-100p="display: none;"
+    data-100p="transform: scale(0.8); visibility: visible; z-index: 0; opacity: 1;"
+    data-101p="transform: scale(0.8); visibility: hidden; z-index: -1; opacity: 0;"
   >
     <div class="user-card__avatar" tabindex="0">
       <div class="user-card__avatar-image user-card__avatar-image--white"></div>
