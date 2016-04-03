@@ -2,11 +2,12 @@
   perspective: 1000px;
   position: fixed;
   transform: translateX(-50%) translateY(-50%);
-  top: 50%;
-  left: 50%;
+  top: 50vh;
+  left: 50vw;
 }
 .user-card {
-  width: 340px;
+  width: 360px;
+  max-width: calc(100vw - 2em);
   background: #FFFFFF;
   border-radius: 2px;
   padding: 2em;
@@ -17,6 +18,7 @@
   letter-spacing: 0.1em;
   margin: 0 1em;
   display: none;
+  box-sizing: border-box;
 
   &[style*="flex"] {
     animation: in 2s;

@@ -6,6 +6,19 @@ body {
   background-origin: content-box;
   background-position: center bottom;
   background-attachment: fixed;
+
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    will-change: opacity;
+    transform: translate3d(0,0,0);
+  }
 }
 _::-webkit-full-page-media, _:future, :root body {
   background-size: auto;
