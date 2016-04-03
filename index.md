@@ -2,7 +2,8 @@
 layout: default
 ---
 
-<div class="intro" data-top="background-color: rgba(0,0,0,0); opacity: 1;" data-center-bottom="background-color: rgba(0,0,0,0.5); opacity: 0.2;">
+<div class="intro">
+  <div class="intro__background" data-top="background-color: rgba(0,0,0,0); opacity: 1;" data-10p-center-bottom="background-color: rgba(0,0,0,0.5); opacity: 0.2;"></div>
   {% include user-card.md %}
 </div>
 

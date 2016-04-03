@@ -1,4 +1,4 @@
-<section class="user-card">
+<section class="user-card" data-center="transform: translateY(0%) scale(1);" data-center-bottom="opacity: 1;" data-top-bottom="transform: translateY(100%) scale(0.8); opacity: 0;">
   <div class="user-card__avatar" tabindex="0">
     <div class="user-card__avatar-image user-card__avatar-image--white"></div>
     <div class="user-card__avatar-flipper">
