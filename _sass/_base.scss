@@ -3,7 +3,9 @@ body {
   font-family: $font-family-regular;
   background-image: url('../images/background-blur.jpg');
   background-size: cover;
+  background-origin: content-box;
   background-position: center bottom;
+  background-position-y: 100%;
   background-attachment: fixed;
 }
 
