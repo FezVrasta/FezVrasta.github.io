@@ -94,7 +94,7 @@
   border: 0;
   background: none;
   width: 50px;
-  opacity: 0.8;
+  opacity: 0.6;
   position: absolute;
   height: 364px;
   background-position: center;
@@ -106,12 +106,32 @@
   &:hover, &:focus {
     opacity: 1;
   }
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    transform: rotate(45deg);
+    border: 2px solid white;
+  }
   &.slick-prev {
-    background-image: url(../images/chevron-left.svg);
+    &:before {
+      border-right: 0;
+      border-top: 0;
+      left: 10px;
+    }
+    //background-image: url(../images/chevron-left.svg);
     left: 0;
   }
   &.slick-next {
-    background-image: url(../images/chevron-right.svg);
+    &:before {
+      border-left: 0;
+      border-bottom: 0;
+      right: 10px;
+    }
+    //background-image: url(../images/chevron-right.svg);
     right: 0;
   }
 }
@@ -126,8 +146,8 @@
     background: rgba(255,255,255,0.05);
     border-radius: 100%;
     font-size: 0;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     transition: background .2s ease-in-out;
     cursor: pointer;
     &:hover, &:focus {

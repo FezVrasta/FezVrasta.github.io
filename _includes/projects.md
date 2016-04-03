@@ -1,6 +1,6 @@
 <h1 class="projects__title">Projects</h1>
 
-<section class="projects__slider">
+<section class="projects__slider" data-bottom-top="opacity: 0; transform: scale(0.5);" data-center-top="opacity: 1; transform: scale(1);">
   {% for project in site.data.projects.projects %}
     <article class="project">
       <h2 class="project__title">{{ project.name }}</h2>

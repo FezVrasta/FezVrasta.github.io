@@ -1,8 +1,6 @@
 /* globals skrollr, $ */
 
-var s = skrollr.init({
-  forceHeight: false
-});
+var s = skrollr.init();
 
 (function() {
   $('.projects__slider').slick({
