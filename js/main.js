@@ -57,7 +57,7 @@ var s = skrollr.init({
     var path = author + '/' + project;
     if (!stars[path]) {
       stars[path] = true;
-      $.get('https://apis.github.com/repos/' + path, function(data) {
+      $.get('https://api.github.com/repos/' + path, function(data) {
         stars[path] = data.stargazers_count;
       }).fail(function() {
         stars[path] = '?';
