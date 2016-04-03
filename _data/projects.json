@@ -27,7 +27,7 @@
     },
     {
       "name": "Gist Manager",
-      "description": "View and create gists within Brackets editor",
+      "description": "View and create gists within Brackets editor.",
       "url": "https://github.com/FezVrasta/gist-manager"
     }
   ]
