@@ -4,9 +4,20 @@
   display: flex;
   justify-content: center;
   text-transform: uppercase;
-  margin: 4em 0;
+  margin: (16px * 4) 0;
 
   &__credit {
     margin: 0 1em;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .footer {
+    flex-direction: column;
+    font-size: 0;
+    &__credit {
+      font-size: 16px;
+      margin-bottom: 1em;
+    }
   }
 }

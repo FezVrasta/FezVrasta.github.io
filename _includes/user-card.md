@@ -1,5 +1,5 @@
 <section class="user-card">
-  <div class="user-card__avatar">
+  <div class="user-card__avatar" tabindex="0">
     <div class="user-card__avatar-image user-card__avatar-image--white"></div>
     <div class="user-card__avatar-flipper">
       <img class="user-card__avatar-image user-card__avatar-image--front" src="{{site.data.about.avatar1}}">

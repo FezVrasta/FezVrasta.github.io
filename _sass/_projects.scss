@@ -54,7 +54,7 @@
     margin: 1em 0;
   }
   &__more-description {
-    margin-bottom: 2em;
+    margin: 0 1em 2em 1em;
   }
 }
 
@@ -161,4 +161,5 @@
 
 @media screen and (max-width: 1000px) {
   .slick-arrow { display: none !important; }
+  .projects__slider { margin-left: 0; margin-right: 0; }
 }

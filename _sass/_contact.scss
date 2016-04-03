@@ -26,6 +26,7 @@
 
   &__form {
     width: 550px;
+    max-width: 100vw;
   }
 
   &__form-row {
@@ -54,5 +55,18 @@
 
   &__alert {
     color: white;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .contact__form-row {
+    flex-direction: column;
+    padding: 0 2em;
+  }
+  .contact__field {
+    width: 100%;
+  }
+  .contact__field + .contact__field {
+    margin-top: 0.7em;
   }
 }
