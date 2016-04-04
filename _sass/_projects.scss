@@ -18,10 +18,10 @@
     height: 5vh;
   }
   &:before {
-    top: -5vh;
+    top: calc(-5vh + 0.5px); // 0.5 is a fix for Safari Mobile (otherwise there's a little gap)
   }
   &:after {
-    bottom: -5vh;
+    bottom: calc(-5vh + 0.5px);
     transform: rotate(180deg);
   }
 

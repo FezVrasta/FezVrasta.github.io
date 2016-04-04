@@ -1,6 +1,6 @@
 <div class="perspective-fixed"
-    data-100p="z-index: 0;"
-    data-101p="z-index: -1;"
+    data-80p="visibility: visible; opacity: 1;"
+    data-81p="visibility: hidden; opacity: 0;"
 >
   <section class="user-card"
     data-20p="transform: scale(1);"
