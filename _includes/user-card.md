@@ -16,6 +16,13 @@
     </div>
     <h1 class="user-card__name">{{site.data.about.name}}</h1>
     <h2 class="user-card__title">{{site.data.about.title}}</h2>
+    <button class="user-card__bio-button js-show-bio">bio</button>
+    <section class="user-card__bio user-card__bio--hidden">
+      <div class="user-card__bio-content">
+        {{ site.data.about.bio | markdownify }}
+        <button class="user-card__back js-hide-bio">Back</button>
+      </div>
+    </section>
 
   <div class="user-card__social">
       {% for social in site.data.about.social %}

@@ -6,7 +6,8 @@
   left: 50vw;
 }
 .user-card {
-  width: 360px;
+  position: relative;
+  width: 400px;
   max-width: calc(100vw - 2em);
   background: #FFFFFF;
   border-radius: 2px;
@@ -98,6 +99,69 @@
     transition: 0.6s;
     transform-style: preserve-3d;
   }
+
+  &__bio-button {
+    cursor: pointer;
+    text-transform: uppercase;
+    background: none;
+    border: 0;
+    width: 3em;
+    margin: 1em auto 0 auto;
+    border-bottom: dotted 1px fade-out(black, 0.4);
+    transition: border .2s ease-out;
+    &:hover {
+      border-bottom-color: fade-out(black, 0.2);
+    }
+  }
+  &__back {
+    cursor: pointer;
+    text-transform: uppercase;
+    background: none;
+    border: 0;
+    border-bottom: dotted 1px fade-out(black, 0.4);
+    transition: border .2s ease-out;
+    float: right;
+    margin-top: 1em;
+    &:hover {
+      border-bottom-color: fade-out(black, 0.2);
+    }
+  }
+
+  &__bio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    z-index: 1;
+    pointer-events: none;
+
+    &--hidden {
+      opacity: 0;
+      transition: opacity 0.8s ease-out 0.3s;
+    }
+
+    &--visible {
+      opacity: 1;
+      pointer-events: all;
+      transition: opacity 0.8s ease-out;
+    }
+  }
+  &__bio--visible &__bio-content {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 0.3s ease-out 0.7s, transform 0.3s ease-out 0.7s;
+  }
+  &__bio--hidden &__bio-content {
+    opacity: 0;
+    transform: translateY(-10%);
+    transition: opacity 0.3s ease-out 0s, transform 0.3s ease-out 0s;
+  }
+  &__bio-content {
+    padding: 3em 2em;
+  }
+
 
   &__social {
     display: flex;

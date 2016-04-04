@@ -70,4 +70,11 @@ var s = skrollr.init({
     }
   });
 
+  $('.js-show-bio').click(function() {
+    $('.user-card__bio').addClass('user-card__bio--visible').removeClass('user-card__bio--hidden');
+  });
+  $('.js-hide-bio').click(function() {
+    $('.user-card__bio').removeClass('user-card__bio--visible').addClass('user-card__bio--hidden');
+  });
+
 })();

@@ -2,6 +2,11 @@
   "name": "Federico Zivolo",
   "nickname": "Fez Vrasta",
   "title": "Front-End Developer at Sysdig",
+  "bio": "\
+    Hi! I'm Fez, a **Front-End Developer** and **UI Designer** fell in love with web technologies.<br><br>\
+    I love to write **JavaScript**, expecially when I can use it to create awesome websites thanks to my extensive **CSS** knowledge.<br><br>\
+    I'm always excited to discover **new technologies** (or meet the people behind them!), drop a message using the form on the bottom if you'd like to chat.
+  ",
   "avatar1": "images/avatar1.jpg",
   "avatar2": "images/avatar2.jpg",
   "github": "https://github.com/FezVrasta",
