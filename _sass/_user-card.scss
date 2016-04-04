@@ -151,7 +151,7 @@
   &__bio--visible &__bio-content {
     opacity: 1;
     transform: translateY(0%);
-    transition: opacity 0.3s ease-out 0.7s, transform 0.3s ease-out 0.7s;
+    transition: opacity 0.3s ease-out 0.3s, transform 0.3s ease-out 0.3s;
   }
   &__bio--hidden &__bio-content {
     opacity: 0;
