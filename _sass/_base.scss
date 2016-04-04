@@ -1,11 +1,19 @@
 body {
-  background-color: $color-main;
   font-family: $font-family-regular;
-  background-image: url('../images/background-blur.jpg');
-  background-size: cover;
-  background-origin: content-box;
-  background-position: center bottom;
-  background-attachment: fixed;
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $color-main;
+    background-image: url('../images/background-blur.jpg');
+    background-size: cover;
+    background-origin: content-box;
+    background-position: center bottom;
+    z-index: -1;
+  }
 
   .background {
     position: fixed;
@@ -54,6 +62,7 @@ p {
   box-shadow: 0 0 1px 0 $color-accent;
   border: 0;
   transition: background .2s ease-in-out;
+  background-color: rgba(0,0,0,0.05);
   &:hover, &:focus {
     background-color: fade-out($color-accent, 0.9);
   }
