@@ -23,10 +23,11 @@ body {
     bottom: 0;
     background-image: url('../images/background.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center bottom;
     will-change: opacity;
     transform: translate3d(0,0,0);
     z-index: -1;
+    pointer-events: none;
   }
 }
 _::-webkit-full-page-media, _:future, :root body {
