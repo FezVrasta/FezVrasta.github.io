@@ -8,7 +8,7 @@ body {
     right: 0;
     bottom: 0;
     background-color: $color-main;
-    background-image: url('../images/background-blur.jpg');
+    background-image: url('../images/background-blur-hd.jpg');
     background-size: cover;
     background-origin: content-box;
     background-position: center bottom;
@@ -21,7 +21,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('../images/background.jpg');
+    background-image: url('../images/background-hd.jpg');
     background-size: cover;
     background-position: center bottom;
     will-change: opacity;
@@ -30,6 +30,20 @@ body {
     pointer-events: none;
   }
 }
+@media
+  (min-device-pixel-ratio: 2) and (min-width: 1920px),
+  (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px),
+  (min-resolution: 192dpi) and (min-width: 1920px)
+{
+  // Retina-specific stuff here
+  body:before {
+    background-image: url('../images/background-blur-uhd.jpg');
+  }
+  .background {
+    background-image: url('../images/background-uhd.jpg');
+  }
+}
+
 _::-webkit-full-page-media, _:future, :root body {
   background-size: auto;
 }
