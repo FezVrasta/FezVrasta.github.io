@@ -16,7 +16,10 @@
     </div>
     <h1 class="user-card__name">{{site.data.about.name}}</h1>
     <h2 class="user-card__title">{{site.data.about.title}}</h2>
-    <button class="user-card__bio-button js-show-bio">bio</button>
+    <div class="user-card__bio-buttons">
+      <button class="user-card__bio-button js-show-bio">about me</button>
+      <a href="./CV_Federico_Zivolo.pdf" target="_blank" class="user-card__resumee-button">resume</a>
+    </div>
     <section class="user-card__bio user-card__bio--hidden">
       <div class="user-card__bio-content">
         {{ site.data.about.bio | markdownify }}
