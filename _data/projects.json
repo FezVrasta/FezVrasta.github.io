@@ -2,7 +2,7 @@
   "projects": [
     {
       "name": "Popper.js",
-      "description": "Easily position tooltip, popovers and so on with just a line of code!",
+      "description": "Easily position tooltip, popovers and so on with just a line of code! (<a href=\"https://twitter.com/TrendingGithub/status/717698573853442050\">Trending!</a>)",
       "url": "http://fezvrasta.github.io/popper.js",
       "author": "FezVrasta",
       "project": "popper.js"
