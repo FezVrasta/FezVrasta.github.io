@@ -2,14 +2,14 @@
   "projects": [
     {
       "name": "Popper.js",
-      "description": "Easily position tooltip, popovers and so on with just a line of code! (<a target=\"_blank\"href=\"https://twitter.com/TrendingGithub/status/717698573853442050\">Trending in Apr 2016!</a>)",
+      "description": "Easily position tooltip, popovers and so on with just a line of code! (<a target=\"_blank\" href=\"https://twitter.com/TrendingGithub/status/717698573853442050\">Trending in Apr 2016!</a>)",
       "url": "http://fezvrasta.github.io/popper.js",
       "author": "FezVrasta",
       "project": "popper.js"
     },
     {
       "name": "Bootstrap Material Design",
-      "description": "The easiest way to use Material Design in your Bootstrap application. (<a target=\"_blank\"href=\"https://twitter.com/TrendingGithub/status/671764769939070976\">Trending in Dec 2015!</a>)",
+      "description": "The easiest way to use Material Design in your Bootstrap application. (<a target=\"_blank\" href=\"https://twitter.com/TrendingGithub/status/671764769939070976\">Trending in Dec 2015!</a>)",
       "url": "http://fezvrasta.github.io/bootstrap-material-design",
       "author": "FezVrasta",
       "project": "bootstrap-material-design"
