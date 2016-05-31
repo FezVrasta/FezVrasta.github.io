@@ -29,6 +29,13 @@
       "project": "dropdown.js"
     },
     {
+      "name": "React Resize Aware",
+      "description": "A simple React component which allows to listen the `resize` event of itself when it's resized.",
+      "url": "https://github.com/FezVrasta/react-resize-aware",
+      "author": "FezVrasta",
+      "project": "react-resize-aware"
+    },
+    {
       "name": "Gist Manager",
       "description": "View and create gists within Brackets editor.",
       "url": "https://github.com/FezVrasta/gist-manager",
