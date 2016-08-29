@@ -29,22 +29,32 @@ var s = skrollr.init({
   var $contactOutput = $('.js-contact-output');
   $contactForm.submit(function(e) {
     e.preventDefault();
+
+    if (window.recaptcha[rand] === false) {
+      $contactForm.find('[type=submit]')[0].setCustomValidity('Please complete the captcha.');
+      window.setTimeout(function() {
+        $contactForm.find(':submit').click();
+      }, 100)
+      return false;
+    }
+
     var url = $contactForm.attr('action');
     $.ajax({
       url: url,
       method: 'POST',
-      data: $(this).serialize(),
+      data: $contactForm.serialize(),
       dataType: 'json',
       beforeSend: function() {
-        $contactOutput.append('<div class="contact__alert contact__alert--loading">Sending message…</div>');
+        $contactOutput.find('.js-loading').show();
+        $contactOutput.find('.js-done, .js-error').hide();
       },
       success: function(data) {
-        $contactOutput.find('.contact__alert--loading').hide();
-        $contactOutput.append('<div class="contact__alert contact__alert--success">Message sent!</div>');
+        $contactOutput.find('.js-loading').hide();
+        $contactOutput.find('.js-done').show();
       },
       error: function(err) {
-        $contactOutput.find('.contact__alert--loading').hide();
-        $contactOutput.append('<div class="contact__alert contact__alert--error">Ops, there was an error.</div>');
+        $contactOutput.find('.js-loading').hide();
+        $contactOutput.find('.js-error').show();
       }
     });
   });
@@ -78,6 +88,27 @@ var s = skrollr.init({
   });
 
 })();
+
+// form
+var rand = Math.random();
+window.recaptcha = {};
+window.recaptcha[rand] = false;
+
+function initForm() {
+  grecaptcha.render('recaptcha', {
+    sitekey: '6Lf0vigTAAAAAPrkLpdFPsqA36IsSfp4ykcV3xZO',
+    callback: captchaCallback,
+    'expire-callback': captchaExpired,
+  });
+}
+
+function captchaCallback() {
+  window.recaptcha[rand] = true;
+  $('#contactForm [type=submit]')[0].setCustomValidity('');
+}
+function captchaExpired() {
+  window.recaptcha[rand] = false;
+}
 
 // analytics
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

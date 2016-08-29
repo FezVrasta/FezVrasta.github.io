@@ -36,6 +36,21 @@
     display: flex;
     flex: 1;
     align-items: center;
+    &--submit {
+      align-items: flex-start;
+    }
+  }
+
+  &__submit-box {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &__feedback {
+    text-align: center;
+    margin-top: .6em;
   }
 
   &__field {
@@ -49,6 +64,11 @@
     min-width: 0;
     box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.5);
     max-height: 500px;
+  }
+
+  &__captcha {
+    margin: -1px 0.5em;
+    padding-left: 2px;
   }
 
   &__submit {
