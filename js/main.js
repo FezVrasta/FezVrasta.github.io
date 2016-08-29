@@ -51,6 +51,7 @@ var s = skrollr.init({
       success: function(data) {
         $contactOutput.find('.js-loading').hide();
         $contactOutput.find('.js-success').show();
+        $contactForm[0].reset();
       },
       error: function(err) {
         $contactOutput.find('.js-loading').hide();
