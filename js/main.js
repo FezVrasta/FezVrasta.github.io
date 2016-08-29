@@ -25,6 +25,12 @@ var s = skrollr.init({
     ]
   });
 
+  $('.js-projects-title').click(function() {
+      $('html, body').animate({
+          scrollTop: $('.js-projects-title').offset().top - 100
+      }, 1000);
+  });
+
   var $contactForm = $('.contact__form');
   var $contactOutput = $('.js-contact-output');
   $contactForm.submit(function(e) {

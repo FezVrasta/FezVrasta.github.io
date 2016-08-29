@@ -33,6 +33,11 @@
     text-transform: uppercase;
     padding: 0.5em 0 1em 0;
     letter-spacing: 0.3em;
+    cursor: pointer;
+    transition: color .2s ease-in-out;
+    &:hover, &:focus {
+      color: $color-accent;
+    }
   }
 
   &__slider {

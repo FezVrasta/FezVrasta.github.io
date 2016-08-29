@@ -3,5 +3,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: calc(100vh - 5em);
+  min-height: 520px;
 }

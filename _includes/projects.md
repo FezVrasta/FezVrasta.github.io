@@ -1,4 +1,4 @@
-<h1 class="projects__title">Projects</h1>
+<h1 class="projects__title js-projects-title">Projects</h1>
 
 <section class="projects__slider" data-bottom-top="opacity: 0; transform: scale(0.5);" data-center-top="opacity: 1; transform: scale(1);">
   {% for project in site.data.projects.projects %}
@@ -19,5 +19,5 @@
     View the whole list of projects visiting my GitHub account.
   </p>
   <a href="{{site.data.about.github}}" target="_blank" class="button button--big">GitHub Account</a>
-  
+
 </section>
