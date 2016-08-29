@@ -26,8 +26,10 @@ var s = skrollr.init({
   });
 
   $('.js-projects-title').click(function() {
+      var vh = $(window).height();
+      var ph = $('.projects').height();
       $('html, body').animate({
-          scrollTop: $('.js-projects-title').offset().top - 100
+          scrollTop: $('.js-projects-title').offset().top - (vh * 0.05) - ((vh - ph - (vh * 0.1)) / 2)
       }, 1000);
   });
 
