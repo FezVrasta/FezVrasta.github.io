@@ -46,11 +46,11 @@ var s = skrollr.init({
       dataType: 'json',
       beforeSend: function() {
         $contactOutput.find('.js-loading').show();
-        $contactOutput.find('.js-done, .js-error').hide();
+        $contactOutput.find('.js-success, .js-error').hide();
       },
       success: function(data) {
         $contactOutput.find('.js-loading').hide();
-        $contactOutput.find('.js-done').show();
+        $contactOutput.find('.js-success').show();
       },
       error: function(err) {
         $contactOutput.find('.js-loading').hide();
