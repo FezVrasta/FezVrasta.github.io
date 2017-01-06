@@ -1,6 +1,8 @@
 .perspective-fixed {
   perspective: 1000px;
   position: fixed;
+  left: calc(50vw - 200px);
+  top: calc(50vh - 250px);
 }
 .user-card {
   position: relative;
