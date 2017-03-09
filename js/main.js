@@ -38,14 +38,6 @@ var s = skrollr.init({
   $contactForm.submit(function(e) {
     e.preventDefault();
 
-    if (window.recaptcha[rand] === false) {
-      $contactForm.find('[type=submit]')[0].setCustomValidity('Please complete the captcha.');
-      window.setTimeout(function() {
-        $contactForm.find(':submit').click();
-      }, 100)
-      return false;
-    }
-
     var url = $contactForm.attr('action');
     $.ajax({
       url: url,
@@ -97,27 +89,6 @@ var s = skrollr.init({
   });
 
 })();
-
-// form
-var rand = Math.random();
-window.recaptcha = {};
-window.recaptcha[rand] = false;
-
-function initForm() {
-  grecaptcha.render('recaptcha', {
-    sitekey: '6Lf0vigTAAAAAPrkLpdFPsqA36IsSfp4ykcV3xZO',
-    callback: captchaCallback,
-    'expire-callback': captchaExpired,
-  });
-}
-
-function captchaCallback() {
-  window.recaptcha[rand] = true;
-  $('#contactForm [type=submit]')[0].setCustomValidity('');
-}
-function captchaExpired() {
-  window.recaptcha[rand] = false;
-}
 
 // analytics
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

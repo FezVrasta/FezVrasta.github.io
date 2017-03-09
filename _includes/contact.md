@@ -9,9 +9,14 @@
     <textarea class="contact__field" rows="7" name="message" required placeholder="Message"></textarea>
   </div>
   <div class="contact__form-row contact__form-row--submit">
-    <div id="recaptcha" class="contact__captcha"></div>
     <div class="contact__submit-box">
-      <button type="submit" class="button button--big contact__submit">Send Message</button>
+      <button
+        type="submit" 
+        class="button button--big contact__submit"
+        data-sitekey="6LfTXBgUAAAAAFfgJ__Rsrf2WCWoV8LuJtmmmZ5W"
+        data-callback="YourOnSubmitFn">
+        Send Message
+      </button>
       <div class="contact__feedback js-contact-output">
         <div class="contact__alert contact__alert--loading js-loading" style="display: none;">Sending message…</div>
         <div class="contact__alert contact__alert--success js-success" style="display: none;">Message sent!</div>
