@@ -1,0 +1,49 @@
+---
+title: 'ha-rbac: giving everyone in the house their own Home Assistant'
+date: 2026-09-04
+dek: "A hotel let every room control every other room over Home Assistant. That's the moment I decided it needed real roles."
+---
+
+I stayed at a five-star hotel that ran every room off Home Assistant, one touchscreen per room. Nice idea, badly scoped: from my own screen I could control every other room and the common areas too, by accident. I [wrote it up on Reddit](https://www.reddit.com/r/homeassistant/comments/1vvetua/a_whole_5_stars_hotel_controlled_by_ha/) at the time.
+
+My own house has the same shape of problem at a smaller scale. Home Assistant has two kinds of user: administrator, and everyone else. "Everyone else" sees every camera, every lock, every sensor you own. There's no way to hand a guest a dashboard with just the living room lights on it, or give a kid a tablet that can't open the front door.
+
+## What I wanted to build
+
+The first idea was a reverse proxy: sit it between Home Assistant's API and its own UI, let it own the permission logic, and if someone tries something they're not allowed to the UI is just allowed to break. One constraint from the start: no hardcoded dictionaries or config files listing every entity and service to manage by hand. Whatever this was, it had to derive the permission catalog from Home Assistant itself, not from a list I'd have to maintain forever.
+
+That constraint is also what killed the first design. Two things showed up once I actually looked at how Home Assistant works internally:
+
+**Access tokens carry no identity.** They're a JWT signed per refresh token, `{iss, iat, exp}`, and nothing else. An external process can't verify one or map it to a user without reading Home Assistant's own auth storage or calling back into it.
+
+**The full catalog only exists as live, in-process state.** Every websocket command and its schema, every service, every panel (with its own `require_admin` flag), the entity, device and area registries: none of it is introspectable from outside the Home Assistant process. A standalone proxy would have had to reimplement or mirror all of that just to know what it was supposed to be guarding.
+
+So the proxy idea survived, the standalone-process part of it didn't. It has to run inside Home Assistant, as a custom integration, so it can read those registries directly and build the permission catalog itself instead of me hand-maintaining one.
+
+## What shipped
+
+[ha-rbac](https://github.com/FezVrasta/ha-rbac), branded Access Control in its own UI. It takes over the port Home Assistant normally answers on, and Home Assistant itself moves to a port reachable only from its own machine. Traffic going through the integration gets checked against a role before it reaches Home Assistant; traffic that would go straight around it can't, because there's nothing listening on the outside anymore.
+
+That's an invasive thing to do on someone's running instance, so it's guarded: the move happens with one restart, the address people already use doesn't change so bookmarks and the companion app keep working, and if it doesn't come back cleanly Home Assistant reverts itself within five minutes and restarts on the old port.
+
+A role decides:
+
+- **What they see.** By area, domain, label, floor, or one specific device.
+- **How much.** Look only, or look and touch.
+- **What stays private.** A specific attribute can be hidden even on an entity they can otherwise see: where someone is, a door code, a serial number.
+- **Where they can go.** Which dashboards, add-ons and settings screens show up in their sidebar at all.
+- **When.** Days and hours. A cleaner gets weekdays 9 to 5, a babysitter gets Friday evenings.
+
+Hidden means hidden, not greyed out: a restricted device is absent from the dashboard, from search, from history and from the API. There's a denials log, because the first thing anyone does after locking something down is ask why it stopped working, and that's a much better answer than reading logs.
+
+I also spent real effort making it look like Home Assistant, not like a plugin someone bolted on. It's built entirely from Home Assistant's own frontend components instead of custom CSS, so it doesn't stand out as a foreign UI glued onto the sidebar.
+
+One use I didn't originally plan for: it works just as well as a fence for a non-human user. Point an AI agent at Home Assistant through its own login and it inherits whatever role you gave it, nothing more. Given what I work on these days, that one matters to me more than I expected it to.
+
+## Where it stands
+
+It's alpha, and I mean that. One early tester hit a real gap: a role starting from "nothing by default" had no way to add dashboard access back in. That's the kind of thing that only surfaces once someone outside my own house tries to configure a role from scratch.
+
+Configuration is UI-only by design, there's no YAML to fall back to. It fits how the rest of the integration works: nothing to hand-maintain, everything derived from what's actually in your Home Assistant.
+
+If you want your Home Assistant to stop being all-or-nothing, the repo is at [github.com/FezVrasta/ha-rbac](https://github.com/FezVrasta/ha-rbac). It's MIT licensed and installs through HACS.
