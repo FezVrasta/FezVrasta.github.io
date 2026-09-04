@@ -1,0 +1,37 @@
+---
+title: 'iseo-argo-ble: reverse engineering my front door lock'
+date: 2026-09-04T12:00:00
+dek: 'Decompiling an Android app to get a smart lock off the cloud, then getting the result into Home Assistant core.'
+---
+
+My front door runs an ISEO Argo smart lock. Out of the box it only talks to ISEO's own app over Bluetooth, no local API, no bridge, nothing Home Assistant can read. ISEO does sell a cloud gateway that bridges it to the internet, but it only talks to their own app and it's clunky to use. I wanted it local like everything else in the house: no cloud round-trip, no ISEO app, to open my own door.
+
+It wasn't just me. People had been asking for ISEO support in the Home Assistant community for a while, the same lock, the same complaint. ISEO Argo BLE locks are a niche, period, so it was never more than a handful of people, but it was enough to know I wasn't building this for an audience of one.
+
+ISEO doesn't publish how the lock and the app actually talk to each other. The only place that exists is inside their own Argo app, so that's where I went: decompiled it and read how it worked from the inside. Turns out it's genuinely encrypted, not just obscured, phone and lock do a real handshake before anything useful gets said. Figuring that part out, byte by byte, took a while.
+
+The lock also has two kinds of identity, and only one of them can do what I needed. One can open the door and read the log. Managing who's allowed to open it needs the other kind, and that one can only be set up once, in the few seconds after you scan the lock's physical Master Card. Miss that window and you start over.
+
+## The crash that rewrote the architecture
+
+I started the obvious way: connect to the lock on a timer, sync who's allowed in, done. That's what I shipped first, and it ran fine for weeks.
+
+**The crash.** Then the lock's firmware locked up and stopped responding to anything, Bluetooth included. The only way back was pulling the batteries out. Turns out doing anything that needs real permissions on a repeating schedule is exactly what this firmware can't handle.
+
+The door's own state doesn't need permissions to read, it's already broadcasting that over Bluetooth on its own. So the integration stopped connecting on a schedule entirely. Door status and battery just come from what the lock is already announcing. It only connects for real when you open the door, or right after, to see who did it.
+
+## What shipped
+
+[iseo-argo-ble](https://github.com/FezVrasta/iseo-argo-ble): a Home Assistant integration, installable through HACS, plus a small command-line tool for testing. Opening the door through it is silent, no beep the ISEO app itself makes, and every open gets logged against whichever person in the house actually asked for it.
+
+The part that talks to the lock is also its own Python library, published separately, so anyone who wants to build something with an ISEO lock that isn't Home Assistant doesn't have to reverse engineer any of this themselves.
+
+## Into Home Assistant core
+
+A HACS integration is mine to run however I want. Core reaches everyone: it ships with Home Assistant itself, no extra repository to find first. So I upstreamed it as [home-assistant/core#164752](https://github.com/home-assistant/core/pull/164752). The reviewer, joostlek, cut it down to just opening the door for the first merge, rather than trying to land everything the HACS version does at once. That's a fair trade: something smaller that actually merges beats something bigger that stalls in review forever. It landed on 2026-08-26 and ships to every Home Assistant user in the 2026.9 release.
+
+The rest is catching up in its own PRs: [user management](https://github.com/home-assistant/core/pull/181104) and [access log reporting](https://github.com/home-assistant/core/pull/181105), both still in review as I write this. The real debate in review was who should be allowed to disable someone's key card. Opening the door and managing who's allowed to open it are different levels of trust, and that distinction had to be built in properly rather than left as a plain on/off switch anyone in the house could flip.
+
+If you've got one of these locks, the HACS integration already does all of this today, and basic lock support lands in every Home Assistant install with 2026.9. There aren't many of us running ISEO locks off Home Assistant, so if you're one of them, I'd like to hear about it, especially if your hardware isn't the X1R Smart I built and tested this against.
+
+None of this should have needed decompiling anything. I bought the lock, I bought the door it's mounted on, and ISEO still decided the protocol wasn't mine to have. It's not really about ISEO. Ship a product with a wire underneath it, then treat the way that wire talks as a company secret, and that's most of what gets sold as "smart" now: you own the hardware, and the part that actually makes it yours is buried in an app nobody expected you to open. Getting it back isn't a hobby I'm proud of needing. It's just what owning your own front door costs, apparently.

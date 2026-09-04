@@ -115,9 +115,9 @@ const workTabs = [
 	},
 ];
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-	.slice(0, 3);
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 ---
 
 <BaseLayout title='Federico "Fez Vrasta" Zivolo'>
