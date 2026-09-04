@@ -1,6 +1,6 @@
 ---
 import { existsSync, readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import { getCollection, render } from 'astro:content';
 import { MessageSquare, Share2 } from 'lucide-astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -19,7 +19,7 @@ const { Content } = await render(post);
 // Written by scripts/ensure-discussions.mjs during the deploy workflow, one GitHub
 // Discussion per post, used as that post's comment thread. Not present locally unless
 // that script has been run by hand, so the button below only shows up when it exists.
-const discussionLinksPath = fileURLToPath(new URL('../../data/discussion-links.json', import.meta.url));
+const discussionLinksPath = path.join(process.cwd(), 'src/data/discussion-links.json');
 const discussionLinks = existsSync(discussionLinksPath)
 	? JSON.parse(readFileSync(discussionLinksPath, 'utf8'))
 	: {};
