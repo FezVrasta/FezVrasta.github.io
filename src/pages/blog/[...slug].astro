@@ -1,4 +1,6 @@
 ---
+import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -12,6 +14,15 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+// Written by scripts/ensure-discussions.mjs during the deploy workflow, one GitHub
+// Discussion per post, used as that post's comment thread. Not present locally unless
+// that script has been run by hand, so the button below only shows up when it exists.
+const discussionLinksPath = fileURLToPath(new URL('../../data/discussion-links.json', import.meta.url));
+const discussionLinks = existsSync(discussionLinksPath)
+	? JSON.parse(readFileSync(discussionLinksPath, 'utf8'))
+	: {};
+const discussionUrl = discussionLinks[post.id];
 ---
 
 <BaseLayout title={`${post.data.title} · fezvrasta`} description={post.data.dek}>
@@ -40,6 +51,26 @@ const { Content } = await render(post);
 					<Content />
 				</div>
 
+				<div class="post-actions">
+					{
+						discussionUrl && (
+							<a href={discussionUrl} class="action-button" target="_blank" rel="noopener noreferrer">
+								Comment on GitHub
+							</a>
+						)
+					}
+					<button
+						type="button"
+						id="share-button"
+						class="action-button"
+						data-title={post.data.title}
+						data-text={post.data.dek}
+						hidden
+					>
+						Share
+					</button>
+				</div>
+
 				<div class="author-card">
 					<img src="/avatar.jpeg" alt="" class="author-avatar" width="84" height="84" />
 					<div class="author-body">
@@ -61,6 +92,24 @@ const { Content } = await render(post);
 		</div>
 	</div>
 </BaseLayout>
+
+<script>
+	const button = document.getElementById('share-button') as HTMLButtonElement | null;
+	if (button && navigator.share) {
+		button.hidden = false;
+		button.addEventListener('click', async () => {
+			try {
+				await navigator.share({
+					title: button.dataset.title,
+					text: button.dataset.text,
+					url: location.href,
+				});
+			} catch (err) {
+				if ((err as Error)?.name !== 'AbortError') throw err;
+			}
+		});
+	}
+</script>
 
 <style>
 	.page {
@@ -110,12 +159,39 @@ const { Content } = await render(post);
 	.post {
 		padding: 90px 0 0;
 	}
+	.post-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin: 50px 0 0;
+	}
+	.action-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 18px;
+		border: 1px solid rgba(255, 255, 255, 0.14);
+		border-radius: 10px;
+		background: none;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		color: #d7d9de;
+		cursor: pointer;
+		transition:
+			background 200ms ease,
+			border-color 200ms ease;
+	}
+	.action-button:hover {
+		background: rgba(255, 255, 255, 0.06);
+		border-color: rgba(255, 255, 255, 0.28);
+		color: #ffffff;
+	}
 	.author-card {
 		display: grid;
 		grid-template-columns: 84px minmax(0, 1fr);
 		gap: 22px;
 		align-items: start;
-		margin: 74px 0 0;
+		margin: 40px 0 0;
 		padding: 26px;
 		border: 1px solid rgba(255, 255, 255, 0.08);
 		border-radius: 18px;

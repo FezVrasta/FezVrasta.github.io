@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# generated at build/deploy time by scripts/ensure-discussions.mjs
+src/data/discussion-links.json
+
 # generated types
 .astro/
 

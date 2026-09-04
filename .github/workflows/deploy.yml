@@ -9,6 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  discussions: write
 
 concurrency:
   group: pages
@@ -19,6 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Ensure a GitHub Discussion exists for every post
+        run: node scripts/ensure-discussions.mjs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: withastro/action@v4
 
   deploy:
