@@ -41,6 +41,12 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 					)
 				}
 			</section>
+
+			<footer class="site-footer">
+				<a href="https://github.com/fezvrasta" class="hover-link">github</a>
+				<a href="https://www.linkedin.com/in/fezvrasta/" class="hover-link">linkedin</a>
+				<a href="https://github.com/sponsors/FezVrasta" class="hover-link">sponsor</a>
+			</footer>
 		</div>
 	</div>
 </BaseLayout>
@@ -100,6 +106,14 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 13px;
 		color: #6f747f;
+	}
+	.site-footer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 28px;
+		padding: 60px 0 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
 	}
 	.list {
 		display: flex;

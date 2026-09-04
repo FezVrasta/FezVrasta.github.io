@@ -1,61 +1,123 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ColonyField from '../components/ColonyField';
 
-const projects = [
+const workTabs = [
 	{
-		n: '01',
-		name: 'Floating UI',
-		blurb: 'Positioning engine for tooltips, popovers and every other floating element. Co-creator.',
-		meta: '32.7k ★',
-		url: 'https://github.com/floating-ui/floating-ui',
+		id: 'popular',
+		label: 'Popular projects',
+		items: [
+			{
+				n: '01',
+				name: 'Floating UI',
+				blurb: 'Positioning engine for tooltips, popovers and every other floating element. Co-creator.',
+				meta: '32.7k ★',
+				url: 'https://github.com/floating-ui/floating-ui',
+			},
+			{
+				n: '02',
+				name: 'Popper.js',
+				blurb: 'The original. Shipped in Bootstrap, Material UI and most of the ecosystem for a decade.',
+				meta: '2016 – 2021',
+				url: 'https://popper.js.org',
+			},
+			{
+				n: '03',
+				name: 'React Resize Aware',
+				blurb: "A React hook for listening to an element's resize events. No ResizeObserver boilerplate.",
+				meta: '565 ★',
+				url: 'https://github.com/FezVrasta/react-resize-aware',
+			},
+			{
+				n: '04',
+				name: 'Bootstrap Material Design',
+				blurb: 'Material Design as a Bootstrap theme, back when that was a thing people needed.',
+				meta: '2014',
+				url: 'https://github.com/FezVrasta/bootstrap-material-design',
+			},
+		],
 	},
 	{
-		n: '02',
-		name: 'Popper.js',
-		blurb: 'The original. Shipped in Bootstrap, Material UI and most of the ecosystem for a decade.',
-		meta: '2016 – 2021',
-		url: 'https://popper.js.org',
+		id: 'home-assistant',
+		label: 'Home Assistant',
+		items: [
+			{
+				n: '01',
+				name: 'C.A.F.E.',
+				blurb: 'A third way to write Home Assistant automations: a visual, state-machine based editor.',
+				meta: '1.7k ★',
+				url: 'https://github.com/FezVrasta/cafe-hass',
+			},
+			{
+				n: '02',
+				name: 'HA RBAC',
+				blurb: 'Role-based access control for Home Assistant. Guests see the lights, kids get their own dashboard.',
+				meta: '53 ★',
+				url: 'https://github.com/FezVrasta/ha-rbac',
+			},
+			{
+				n: '03',
+				name: 'Pull-Down Card',
+				blurb: 'iOS-style pull-down drawer card for Home Assistant dashboards.',
+				meta: '25 ★',
+				url: 'https://github.com/FezVrasta/pull-down-card',
+			},
+			{
+				n: '04',
+				name: 'Glass Thermostat Card',
+				blurb: 'A liquid glass style thermostat card for Home Assistant.',
+				meta: '23 ★',
+				url: 'https://github.com/FezVrasta/glass-thermostat-card',
+			},
+		],
 	},
 	{
-		n: '03',
-		name: 'cafe-hass',
-		blurb: 'A third way to write Home Assistant automations, plus role-based access control.',
-		meta: '1.7k ★',
-		url: 'https://github.com/FezVrasta/cafe-hass',
-	},
-	{
-		n: '04',
-		name: 'bootstrap-material-design',
-		blurb: 'Material Design as a Bootstrap theme, back when that was a thing people needed.',
-		meta: '2014',
-		url: 'https://github.com/FezVrasta/bootstrap-material-design',
+		id: 'career',
+		label: 'Career',
+		items: [
+			{
+				n: '01',
+				name: 'Cantina',
+				blurb: 'Senior software engineer, building the frontend for a Web3 security-review platform and Clarion, its AI-powered security product.',
+				meta: '2025 – present',
+				url: 'https://cantina.xyz',
+			},
+			{
+				n: '02',
+				name: 'OddsJam',
+				blurb: 'Staff software engineer. Designed and built BetBucket from scratch: backend, frontend and database.',
+				meta: '2024',
+				url: 'https://oddsjam.com',
+			},
+			{
+				n: '03',
+				name: 'Sirona Medical',
+				blurb: 'Staff software engineer and tech lead. Took the frontend from MVP to an enterprise product used in clinical production.',
+				meta: '2020 – 2024',
+				url: 'https://sironamedical.com',
+			},
+			{
+				n: '04',
+				name: 'Quid',
+				blurb: 'Frontend developer on an AI-driven market intelligence platform, building the data-heavy visualization UI.',
+				meta: '2016 – 2020',
+				url: 'https://quid.com',
+			},
+			{
+				n: '05',
+				name: 'Sysdig',
+				blurb: 'Front-end developer. Revamped the UI of a cloud security-monitoring product.',
+				meta: '2015 – 2016',
+				url: 'https://sysdig.com',
+			},
+		],
 	},
 ];
 
-const posts = [
-	{
-		date: '2026 · 07',
-		title: 'Positioning is not layout',
-		dek: 'Every popover bug I have ever fixed came from treating the two as the same problem.',
-		read: '8 min',
-		url: '/blog',
-	},
-	{
-		date: '2026 · 04',
-		title: 'Home Assistant automations are a state machine problem',
-		dek: 'Why C.A.F.E. models conditions as states rather than triggers, and what that buys you.',
-		read: '12 min',
-		url: '#',
-	},
-	{
-		date: '2026 · 01',
-		title: 'Rewriting Popper twice',
-		dek: 'The first rewrite was about the API. The second was about admitting the library had become a platform.',
-		read: '6 min',
-		url: '#',
-	},
-];
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
 ---
 
 <BaseLayout title='Federico "Fez Vrasta" Zivolo'>
@@ -75,7 +137,7 @@ const posts = [
 
 			<section class="hero">
 				<p class="hero-eyebrow">Senior software engineer &middot; Milano, Italy</p>
-				<h1 class="hero-title">I ship product interfaces for a living, and the pieces other people build theirs out of on the side.</h1>
+				<h1 class="hero-title">I ship products. Sometimes I build the pieces they're built from.</h1>
 				<p class="hero-desc">
 					Fifteen years shipping frontends for security monitoring, machine learning, medical imaging and betting.
 					Also wrote Popper.js, co-created Floating&nbsp;UI, and tinker with Home&nbsp;Assistant.
@@ -85,19 +147,39 @@ const posts = [
 
 			<section id="work" class="section">
 				<h2 class="section-title">Selected work</h2>
-				<div class="list">
-					{
-						projects.map((p) => (
-							<a href={p.url} class="row project-row">
-								<span class="project-index">{p.n}</span>
-								<span class="row-body">
-									<span class="project-name">{p.name}</span>
-									<span class="row-blurb">{p.blurb}</span>
-								</span>
-								<span class="row-meta">{p.meta}</span>
-							</a>
-						))
-					}
+				<div class="tabs">
+					{workTabs.map((tab, i) => (
+						<input
+							type="radio"
+							name="work-tab"
+							id={`tab-${tab.id}`}
+							class="tab-radio"
+							checked={i === 0}
+						/>
+					))}
+					<div class="tab-bar">
+						{workTabs.map((tab) => (
+							<label for={`tab-${tab.id}`} class="tab-label">
+								{tab.label}
+							</label>
+						))}
+					</div>
+					<div class="tab-panels">
+						{workTabs.map((tab) => (
+							<div class={`tab-panel panel-${tab.id} list`}>
+								{tab.items.map((p) => (
+									<a href={p.url} class="row project-row">
+										<span class="project-index">{p.n}</span>
+										<span class="row-body">
+											<span class="project-name">{p.name}</span>
+											<span class="row-blurb">{p.blurb}</span>
+										</span>
+										<span class="row-meta">{p.meta}</span>
+									</a>
+								))}
+							</div>
+						))}
+					</div>
 				</div>
 			</section>
 
@@ -107,24 +189,31 @@ const posts = [
 					Notes on the projects above: what broke, what I would do differently, and the occasional argument about the
 					platform.
 				</p>
-				<div class="list">
-					{
-						posts.map((post) => (
-							<a href={post.url} class="row post-row">
-								<span class="post-date">{post.date}</span>
-								<span class="row-body">
-									<span class="post-title">{post.title}</span>
-									<span class="row-blurb post-dek">{post.dek}</span>
-								</span>
-								<span class="row-meta">{post.read}</span>
-							</a>
-						))
-					}
-				</div>
-				<p class="section-note">
-					These posts are written with AI assistance. I don't have time to write them all myself, but I'd rather share
-					the thoughts than not.
-				</p>
+				{
+					posts.length > 0 ? (
+						<>
+							<div class="list">
+								{posts.map((post) => (
+									<a href={`/blog/${post.id}`} class="row post-row">
+										<span class="post-date">
+											{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' })}
+										</span>
+										<span class="row-body">
+											<span class="post-title">{post.data.title}</span>
+											<span class="row-blurb post-dek">{post.data.dek}</span>
+										</span>
+									</a>
+								))}
+							</div>
+							<p class="section-note">
+								These posts are written with AI assistance. I don't have time to write them all myself, but I'd rather
+								share the thoughts than not.
+							</p>
+						</>
+					) : (
+						<p class="section-note">No posts yet, check back soon.</p>
+					)
+				}
 			</section>
 
 			<footer class="site-footer">
@@ -285,6 +374,67 @@ const posts = [
 		gap: 10px;
 	}
 
+	.tab-radio {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	.tab-bar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 28px;
+		margin: 0 0 32px;
+	}
+
+	.tab-label {
+		padding: 4px 0 10px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.02em;
+		color: #7f8490;
+		border-bottom: 2px solid transparent;
+		cursor: pointer;
+		transition:
+			color 200ms ease,
+			border-color 200ms ease;
+	}
+	.tab-label:hover {
+		color: #d7d9de;
+	}
+
+	.tab-panel {
+		display: none;
+	}
+
+	.tab-panel.list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px 16px;
+	}
+
+	#tab-popular:checked ~ .tab-bar label[for='tab-popular'],
+	#tab-home-assistant:checked ~ .tab-bar label[for='tab-home-assistant'],
+	#tab-career:checked ~ .tab-bar label[for='tab-career'] {
+		color: #f2f3f5;
+		border-bottom-color: rgba(255, 255, 255, 0.4);
+	}
+
+	#tab-popular:checked ~ .tab-panels .panel-popular,
+	#tab-home-assistant:checked ~ .tab-panels .panel-home-assistant,
+	#tab-career:checked ~ .tab-panels .panel-career {
+		display: grid;
+	}
+
+	#tab-popular:focus-visible ~ .tab-bar label[for='tab-popular'],
+	#tab-home-assistant:focus-visible ~ .tab-bar label[for='tab-home-assistant'],
+	#tab-career:focus-visible ~ .tab-bar label[for='tab-career'] {
+		outline: 2px solid rgba(255, 255, 255, 0.5);
+		outline-offset: 2px;
+	}
+
 	.row {
 		display: grid;
 		gap: 28px;
@@ -378,6 +528,12 @@ const posts = [
 		padding: 60px 0 0;
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 13px;
+	}
+
+	@media (max-width: 900px) {
+		.tab-panel.list {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	@media (max-width: 720px) {

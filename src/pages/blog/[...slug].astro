@@ -16,7 +16,7 @@ const { Content } = await render(post);
 
 <BaseLayout title={`${post.data.title} · fezvrasta`} description={post.data.dek}>
 	<div class="page">
-		<div class="content">
+		<div class="header-bar">
 			<header class="site-header">
 				<a href="/" class="logo">fezvrasta</a>
 				<nav class="site-nav">
@@ -25,7 +25,9 @@ const { Content } = await render(post);
 					<a href="https://github.com/fezvrasta" class="hover-link">github</a>
 				</nav>
 			</header>
+		</div>
 
+		<div class="content">
 			<article class="post">
 				<p class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' })}</p>
 				<h1 class="post-title">{post.data.title}</h1>
@@ -37,7 +39,25 @@ const { Content } = await render(post);
 				<div class="prose">
 					<Content />
 				</div>
+
+				<div class="author-card">
+					<img src="/avatar.jpeg" alt="" class="author-avatar" width="84" height="84" />
+					<div class="author-body">
+						<span class="author-label">About</span>
+						<span class="author-name">Federico Zivolo</span>
+						<p class="author-bio">
+							Frontend engineer in Milano. Fifteen years shipping frontends: security monitoring, machine learning,
+							medical imaging, betting, Web3, and now AI security. Wrote Popper.js and co-created Floating UI.
+						</p>
+					</div>
+				</div>
 			</article>
+
+			<footer class="site-footer">
+				<a href="https://github.com/fezvrasta" class="hover-link">github</a>
+				<a href="https://www.linkedin.com/in/fezvrasta/" class="hover-link">linkedin</a>
+				<a href="https://github.com/sponsors/FezVrasta" class="hover-link">sponsor</a>
+			</footer>
 		</div>
 	</div>
 </BaseLayout>
@@ -47,6 +67,12 @@ const { Content } = await render(post);
 		position: relative;
 		min-height: 100vh;
 		background: #0d0e12;
+	}
+	.header-bar {
+		position: relative;
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 40px;
 	}
 	.content {
 		position: relative;
@@ -84,6 +110,56 @@ const { Content } = await render(post);
 	.post {
 		padding: 90px 0 0;
 	}
+	.author-card {
+		display: grid;
+		grid-template-columns: 84px minmax(0, 1fr);
+		gap: 22px;
+		align-items: start;
+		margin: 74px 0 0;
+		padding: 26px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 18px;
+		background: rgba(19, 21, 26, 0.6);
+	}
+	.author-avatar {
+		width: 100%;
+		aspect-ratio: 1;
+		box-sizing: border-box;
+		border-radius: 14px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		object-fit: cover;
+	}
+	.author-body {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.author-label {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #6f747f;
+	}
+	.author-name {
+		font-size: 20px;
+		letter-spacing: -0.015em;
+	}
+	.author-bio {
+		margin: 0;
+		font-size: 15.5px;
+		line-height: 1.6;
+		color: #9a9ea8;
+		max-width: 46ch;
+	}
+	.site-footer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 28px;
+		padding: 60px 0 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+	}
 	.post-date {
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 12px;
@@ -106,14 +182,10 @@ const { Content } = await render(post);
 	}
 	.ai-disclaimer {
 		margin: 0 0 50px;
-		padding: 14px 18px;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 12px;
-		background: rgba(255, 255, 255, 0.03);
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 12.5px;
+		font-size: 12px;
 		line-height: 1.6;
-		color: #8b909b;
+		color: #6f747f;
 	}
 	.prose {
 		font-size: 17px;
@@ -162,11 +234,18 @@ const { Content } = await render(post);
 		color: #9a9ea8;
 	}
 	@media (max-width: 720px) {
+		.header-bar {
+			padding: 0 20px;
+		}
 		.content {
 			padding: 0 20px 100px;
 		}
 		.post-title {
 			font-size: 30px;
+		}
+		.author-card {
+			grid-template-columns: 56px minmax(0, 1fr);
+			padding: 20px;
 		}
 	}
 </style>
