@@ -24,7 +24,8 @@ Consult these guides before working on related tasks:
 ## Writing voice
 
 All copy on this site (hero, bios, blog posts, disclaimers, anything user-facing) should sound like Federico actually
-wrote it. Derived from his GitHub issue/PR replies (FezVrasta) and LinkedIn experience blurbs.
+wrote it. Derived from his GitHub issue/PR replies, LinkedIn experience blurbs, and Reddit comments (u/FezVrasta,
+r/homeassistant and friends).
 
 **Never use em dashes ("—" or " -- "). Not once, not even for an aside.** Rewrite the sentence instead: split it into
 two sentences, use a comma, use parentheses, or use a colon. This is a hard rule, not a style preference.
@@ -43,3 +44,7 @@ Other traits to match:
 - Short paragraphs. Long technical explanations are structured (bold lead-ins, numbered causes) but never padded:
   no restating the question before answering it.
 - No exclamation points as a default. Enthusiasm is shown through specificity, not punctuation.
+- Asides go in parentheses, not between dashes. Related but separate thoughts get their own sentence instead of being
+  chained together.
+- A little grammatical looseness is fine and reads as authentic (dropped commas, a sentence fragment). Don't over-polish
+  short remarks into corporate copy-editing.
