@@ -369,9 +369,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	}
 
 	.list {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px 16px;
 	}
 
 	.tab-radio {
@@ -408,11 +408,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 
 	.tab-panel {
 		display: none;
-	}
-
-	.tab-panel.list {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 12px 16px;
 	}
 
 	#tab-popular:checked ~ .tab-bar label[for='tab-popular'],
@@ -531,7 +526,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	}
 
 	@media (max-width: 900px) {
-		.tab-panel.list {
+		.list {
 			grid-template-columns: 1fr;
 		}
 	}
