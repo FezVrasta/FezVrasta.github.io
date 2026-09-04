@@ -1,8 +1,25 @@
-# FezVrasta.github.io
+# fezvrasta.github.io
 
-This is the repository of my portfolio page at GitHub pages.  
-Some people asked me to reuse the Jekyll theme I created for this page, I'm sorry but I can't allow this, I'd like to keep my website unique, thanks for the comprehension!
+Personal site and MDX blog, built with [Astro](https://astro.build).
 
-# License
+## Development
+
+```sh
+npm install
+npm run dev
+```
+
+## Structure
+
+- `src/pages/index.astro`: homepage
+- `src/components/ColonyField.tsx`: WebGL background (client island)
+- `src/content/blog/*.mdx`: blog posts
+- `src/pages/blog/`: blog index and post routes
+
+## Deployment
+
+Pushes to `master` build and deploy via the `Deploy to GitHub Pages` GitHub Actions workflow (`.github/workflows/deploy.yml`). In the repo's **Settings → Pages**, set the source to **GitHub Actions**.
+
+## License
 
 All rights reserved.

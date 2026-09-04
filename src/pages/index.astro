@@ -1,0 +1,403 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ColonyField from '../components/ColonyField';
+
+const projects = [
+	{
+		n: '01',
+		name: 'Floating UI',
+		blurb: 'Positioning engine for tooltips, popovers and every other floating element. Co-creator.',
+		meta: '32.7k ★',
+		url: 'https://github.com/floating-ui/floating-ui',
+	},
+	{
+		n: '02',
+		name: 'Popper.js',
+		blurb: 'The original. Shipped in Bootstrap, Material UI and most of the ecosystem for a decade.',
+		meta: '2016 – 2021',
+		url: 'https://popper.js.org',
+	},
+	{
+		n: '03',
+		name: 'cafe-hass',
+		blurb: 'A third way to write Home Assistant automations, plus role-based access control.',
+		meta: '1.7k ★',
+		url: 'https://github.com/FezVrasta/cafe-hass',
+	},
+	{
+		n: '04',
+		name: 'bootstrap-material-design',
+		blurb: 'Material Design as a Bootstrap theme, back when that was a thing people needed.',
+		meta: '2014',
+		url: 'https://github.com/FezVrasta/bootstrap-material-design',
+	},
+];
+
+const posts = [
+	{
+		date: '2026 · 07',
+		title: 'Positioning is not layout',
+		dek: 'Every popover bug I have ever fixed came from treating the two as the same problem.',
+		read: '8 min',
+		url: '/blog',
+	},
+	{
+		date: '2026 · 04',
+		title: 'Home Assistant automations are a state machine problem',
+		dek: 'Why C.A.F.E. models conditions as states rather than triggers, and what that buys you.',
+		read: '12 min',
+		url: '#',
+	},
+	{
+		date: '2026 · 01',
+		title: 'Rewriting Popper twice',
+		dek: 'The first rewrite was about the API. The second was about admitting the library had become a platform.',
+		read: '6 min',
+		url: '#',
+	},
+];
+---
+
+<BaseLayout title='Federico "Fez Vrasta" Zivolo'>
+	<div class="page">
+		<ColonyField client:load pattern="colonies" colorway="lime" attract={true} />
+		<div class="scrim" aria-hidden="true"></div>
+
+		<div class="content">
+			<header class="site-header">
+				<a href="/" class="logo">fezvrasta</a>
+				<nav class="site-nav">
+					<a href="#work" class="hover-link">work</a>
+					<a href="#writing" class="hover-link">writing</a>
+					<a href="https://github.com/fezvrasta" class="hover-link">github</a>
+				</nav>
+			</header>
+
+			<section class="hero">
+				<p class="hero-eyebrow">Senior software engineer &middot; Milano, Italy</p>
+				<h1 class="hero-title">I ship product interfaces for a living, and the pieces other people build theirs out of on the side.</h1>
+				<p class="hero-desc">
+					Fifteen years shipping frontends for security monitoring, machine-learning interfaces, medical imaging and
+					betting. Right now I'm building AI-powered security monitoring, after leading frontend for an enterprise
+					medical-imaging product and building a couple of startups from scratch. I also wrote Popper.js, co-created
+					Floating&nbsp;UI, and spend spare cycles on Home&nbsp;Assistant tooling.
+				</p>
+				<p class="hero-hint">The colonies feed, grow, and outgrow the frame. Leave a trail for them.</p>
+			</section>
+
+			<section id="work" class="section">
+				<h2 class="section-title">Selected work</h2>
+				<div class="list">
+					{
+						projects.map((p) => (
+							<a href={p.url} class="row project-row">
+								<span class="project-index">{p.n}</span>
+								<span class="row-body">
+									<span class="project-name">{p.name}</span>
+									<span class="row-blurb">{p.blurb}</span>
+								</span>
+								<span class="row-meta">{p.meta}</span>
+							</a>
+						))
+					}
+				</div>
+			</section>
+
+			<section id="writing" class="section section-writing">
+				<h2 class="section-title">Writing</h2>
+				<p class="section-lede">
+					Notes on the projects above: what broke, what I would do differently, and the occasional argument about the
+					platform.
+				</p>
+				<div class="list">
+					{
+						posts.map((post) => (
+							<a href={post.url} class="row post-row">
+								<span class="post-date">{post.date}</span>
+								<span class="row-body">
+									<span class="post-title">{post.title}</span>
+									<span class="row-blurb post-dek">{post.dek}</span>
+								</span>
+								<span class="row-meta">{post.read}</span>
+							</a>
+						))
+					}
+				</div>
+				<p class="section-note">
+					These posts are written with AI assistance. I don't have time to write them all myself, but I'd rather share
+					the thoughts than not.
+				</p>
+			</section>
+
+			<footer class="site-footer">
+				<a href="https://github.com/fezvrasta" class="hover-link">github</a>
+				<a href="https://www.linkedin.com/in/fezvrasta/" class="hover-link">linkedin</a>
+				<a href="https://github.com/sponsors/FezVrasta" class="hover-link">sponsor</a>
+			</footer>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.page {
+		position: relative;
+		min-height: 100vh;
+		background: #0d0e12;
+		overflow: hidden;
+	}
+
+	.scrim {
+		position: fixed;
+		inset: 0;
+		z-index: 1;
+		pointer-events: none;
+		background:
+			linear-gradient(
+				100deg,
+				rgba(13, 14, 18, 0.94) 0%,
+				rgba(13, 14, 18, 0.9) 34%,
+				rgba(13, 14, 18, 0.55) 62%,
+				rgba(13, 14, 18, 0.12) 86%,
+				rgba(13, 14, 18, 0) 100%
+			),
+			linear-gradient(180deg, rgba(13, 14, 18, 0.82) 0%, rgba(13, 14, 18, 0.5) 6%, rgba(13, 14, 18, 0) 15%);
+	}
+
+	.content {
+		position: relative;
+		z-index: 2;
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 40px 140px;
+	}
+
+	.site-header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 32px;
+		padding: 34px 0 0;
+	}
+
+	.logo {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.06em;
+		color: #f2f3f5;
+	}
+
+	.site-nav {
+		display: flex;
+		gap: 28px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.02em;
+	}
+
+	.hover-link {
+		color: #9a9ea8;
+		transition: color 200ms ease;
+	}
+	.hover-link:hover {
+		color: #ffffff;
+	}
+
+	.hero {
+		min-height: 74vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 30px;
+		padding: 90px 0 60px;
+		max-width: 660px;
+	}
+
+	.hero-eyebrow {
+		margin: 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: #7f8490;
+	}
+
+	.hero-title {
+		margin: 0;
+		font-size: 58px;
+		line-height: 1.04;
+		letter-spacing: -0.025em;
+		font-weight: 500;
+		text-wrap: pretty;
+	}
+
+	.hero-desc {
+		margin: 0;
+		font-size: 19px;
+		line-height: 1.6;
+		color: #b7bcc6;
+		max-width: 560px;
+		text-wrap: pretty;
+	}
+
+	.hero-hint {
+		margin: 8px 0 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		color: #8b909b;
+	}
+
+	.section {
+		padding: 70px 0 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.section-writing {
+		padding-top: 90px;
+		border-top: none;
+	}
+
+	.section-title {
+		margin: 0 0 40px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: #7f8490;
+		font-weight: 400;
+	}
+
+	.section-lede {
+		margin: -14px 0 30px;
+		font-size: 17px;
+		line-height: 1.55;
+		color: #9a9ea8;
+		max-width: 520px;
+	}
+
+	.section-note {
+		margin: 22px 0 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		color: #6f747f;
+	}
+
+	.list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.row {
+		display: grid;
+		gap: 28px;
+		align-items: start;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 16px;
+		background: rgba(13, 14, 18, 0.34);
+		backdrop-filter: blur(2px);
+	}
+
+	.project-row {
+		grid-template-columns: 46px minmax(0, 1fr) auto;
+		padding: 24px 22px 24px 18px;
+		transition:
+			background 260ms ease,
+			padding-left 260ms ease;
+	}
+	.project-row:hover {
+		background: rgba(24, 27, 33, 0.72);
+		padding-left: 28px;
+	}
+
+	.post-row {
+		grid-template-columns: 110px minmax(0, 1fr) auto;
+		padding: 26px 22px 26px 18px;
+		transition:
+			background 260ms ease,
+			padding-left 260ms ease;
+	}
+	.post-row:hover {
+		background: rgba(24, 27, 33, 0.72);
+		padding-left: 28px;
+	}
+
+	.project-index {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		color: #5e636e;
+		padding-top: 7px;
+	}
+
+	.post-date {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		color: #5e636e;
+		padding-top: 6px;
+	}
+
+	.row-body {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.project-name {
+		font-size: 25px;
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+	}
+
+	.post-title {
+		font-size: 23px;
+		letter-spacing: -0.02em;
+		line-height: 1.2;
+	}
+
+	.row-blurb {
+		font-size: 15px;
+		line-height: 1.55;
+		color: #9a9ea8;
+		max-width: 46ch;
+	}
+
+	.post-dek {
+		line-height: 1.6;
+		max-width: 48ch;
+	}
+
+	.row-meta {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		color: #6f747f;
+		white-space: nowrap;
+		padding-top: 9px;
+	}
+
+	.site-footer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 28px;
+		padding: 60px 0 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+	}
+
+	@media (max-width: 720px) {
+		.content {
+			padding: 0 20px 100px;
+		}
+		.hero-title {
+			font-size: 38px;
+		}
+		.project-row,
+		.post-row {
+			grid-template-columns: 1fr;
+			gap: 10px;
+		}
+		.project-index,
+		.post-date,
+		.row-meta {
+			padding-top: 0;
+		}
+	}
+</style>

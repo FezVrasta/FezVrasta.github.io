@@ -1,0 +1,158 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout title="Writing · fezvrasta">
+	<div class="page">
+		<div class="content">
+			<header class="site-header">
+				<a href="/" class="logo">fezvrasta</a>
+				<nav class="site-nav">
+					<a href="/#work" class="hover-link">work</a>
+					<a href="/blog" class="hover-link">writing</a>
+					<a href="https://github.com/fezvrasta" class="hover-link">github</a>
+				</nav>
+			</header>
+
+			<section class="section section-writing">
+				<h1 class="section-title">Writing</h1>
+				{
+					posts.length === 0 ? (
+						<p class="section-note">No posts yet, check back soon.</p>
+					) : (
+						<div class="list">
+							{posts.map((post) => (
+								<a href={`/blog/${post.id}`} class="row post-row">
+									<span class="post-date">
+										{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' })}
+									</span>
+									<span class="row-body">
+										<span class="post-title">{post.data.title}</span>
+										<span class="row-blurb post-dek">{post.data.dek}</span>
+									</span>
+								</a>
+							))}
+						</div>
+					)
+				}
+			</section>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.page {
+		position: relative;
+		min-height: 100vh;
+		background: #0d0e12;
+	}
+	.content {
+		position: relative;
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 40px 140px;
+	}
+	.site-header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 32px;
+		padding: 34px 0 0;
+	}
+	.logo {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.06em;
+		color: #f2f3f5;
+	}
+	.site-nav {
+		display: flex;
+		gap: 28px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.02em;
+	}
+	.hover-link {
+		color: #9a9ea8;
+		transition: color 200ms ease;
+	}
+	.hover-link:hover {
+		color: #ffffff;
+	}
+	.section-writing {
+		padding: 90px 0 0;
+	}
+	.section-title {
+		margin: 0 0 40px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: #7f8490;
+		font-weight: 400;
+	}
+	.section-note {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		color: #6f747f;
+	}
+	.list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.row {
+		display: grid;
+		grid-template-columns: 110px minmax(0, 1fr);
+		gap: 28px;
+		align-items: start;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 16px;
+		background: rgba(13, 14, 18, 0.34);
+		backdrop-filter: blur(2px);
+		padding: 26px 22px 26px 18px;
+		transition:
+			background 260ms ease,
+			padding-left 260ms ease;
+	}
+	.row:hover {
+		background: rgba(24, 27, 33, 0.72);
+		padding-left: 28px;
+	}
+	.post-date {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		color: #5e636e;
+		padding-top: 6px;
+	}
+	.row-body {
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+	}
+	.post-title {
+		font-size: 23px;
+		letter-spacing: -0.02em;
+		line-height: 1.2;
+	}
+	.post-dek {
+		font-size: 15px;
+		line-height: 1.6;
+		color: #9a9ea8;
+		max-width: 48ch;
+	}
+	@media (max-width: 720px) {
+		.content {
+			padding: 0 20px 100px;
+		}
+		.row {
+			grid-template-columns: 1fr;
+			gap: 10px;
+		}
+	}
+</style>

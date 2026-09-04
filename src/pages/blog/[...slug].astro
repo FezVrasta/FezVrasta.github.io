@@ -1,0 +1,172 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog', ({ data }) => !data.draft);
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} · fezvrasta`} description={post.data.dek}>
+	<div class="page">
+		<div class="content">
+			<header class="site-header">
+				<a href="/" class="logo">fezvrasta</a>
+				<nav class="site-nav">
+					<a href="/#work" class="hover-link">work</a>
+					<a href="/blog" class="hover-link">writing</a>
+					<a href="https://github.com/fezvrasta" class="hover-link">github</a>
+				</nav>
+			</header>
+
+			<article class="post">
+				<p class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' })}</p>
+				<h1 class="post-title">{post.data.title}</h1>
+				<p class="post-dek">{post.data.dek}</p>
+				<p class="ai-disclaimer">
+					Written with AI assistance. I don't have time to write every post myself, but I'd rather share the thoughts
+					than not.
+				</p>
+				<div class="prose">
+					<Content />
+				</div>
+			</article>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.page {
+		position: relative;
+		min-height: 100vh;
+		background: #0d0e12;
+	}
+	.content {
+		position: relative;
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 0 40px 140px;
+	}
+	.site-header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 32px;
+		padding: 34px 0 0;
+	}
+	.logo {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.06em;
+		color: #f2f3f5;
+	}
+	.site-nav {
+		display: flex;
+		gap: 28px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 0.02em;
+	}
+	.hover-link {
+		color: #9a9ea8;
+		transition: color 200ms ease;
+	}
+	.hover-link:hover {
+		color: #ffffff;
+	}
+	.post {
+		padding: 90px 0 0;
+	}
+	.post-date {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		color: #7f8490;
+		margin: 0 0 18px;
+	}
+	.post-title {
+		margin: 0 0 18px;
+		font-size: 42px;
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		font-weight: 500;
+	}
+	.post-dek {
+		margin: 0 0 24px;
+		font-size: 19px;
+		line-height: 1.6;
+		color: #b7bcc6;
+	}
+	.ai-disclaimer {
+		margin: 0 0 50px;
+		padding: 14px 18px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.03);
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12.5px;
+		line-height: 1.6;
+		color: #8b909b;
+	}
+	.prose {
+		font-size: 17px;
+		line-height: 1.7;
+		color: #d7d9de;
+	}
+	.prose :global(h2) {
+		font-size: 26px;
+		letter-spacing: -0.01em;
+		margin: 48px 0 18px;
+	}
+	.prose :global(h3) {
+		font-size: 21px;
+		margin: 36px 0 14px;
+	}
+	.prose :global(p) {
+		margin: 0 0 20px;
+	}
+	.prose :global(a) {
+		color: #f2f3f5;
+		text-decoration: underline;
+		text-decoration-color: rgba(255, 255, 255, 0.3);
+	}
+	.prose :global(code) {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.9em;
+		background: rgba(255, 255, 255, 0.08);
+		padding: 0.15em 0.4em;
+		border-radius: 4px;
+	}
+	.prose :global(pre) {
+		background: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+		padding: 20px;
+		overflow-x: auto;
+	}
+	.prose :global(pre code) {
+		background: none;
+		padding: 0;
+	}
+	.prose :global(blockquote) {
+		margin: 0 0 20px;
+		padding-left: 18px;
+		border-left: 2px solid rgba(255, 255, 255, 0.16);
+		color: #9a9ea8;
+	}
+	@media (max-width: 720px) {
+		.content {
+			padding: 0 20px 100px;
+		}
+		.post-title {
+			font-size: 30px;
+		}
+	}
+</style>

@@ -1,0 +1,59 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const {
+	title,
+	description = 'Federico "Fez Vrasta" Zivolo, frontend engineer. Popper.js, Floating UI, Home Assistant tooling.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<title>{title}</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		background: #0d0e12;
+	}
+	body {
+		-webkit-font-smoothing: antialiased;
+		font-family: 'Instrument Sans', Helvetica, sans-serif;
+		color: #f2f3f5;
+	}
+	a {
+		color: #f2f3f5;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #ffffff;
+	}
+	::selection {
+		background: #2b3a1c;
+		color: #fff;
+	}
+</style>
