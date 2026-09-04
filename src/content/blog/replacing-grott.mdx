@@ -1,0 +1,55 @@
+---
+title: 'Replacing Grott: a Growatt integration that works completely offline'
+date: 2026-09-04
+dek: "Grott has no license, needs Docker, and talks to Home Assistant over MQTT. Its offline mode doesn't even work offline. Here's what I built instead."
+---
+
+I've been on a quest to make my Home Assistant setup work completely offline. My Samsung and Bosch appliances already manage it. My solar inverter was next, and that meant replacing whatever was standing between it and Home Assistant.
+
+For most people running a Growatt inverter locally, that's [Grott](https://github.com/johanmeijer/grott): a community server that stands in for Growatt's cloud and republishes the data over MQTT. It's the standard answer, and it mostly works. For what I wanted, three things about it didn't:
+
+- **No license.** The repo has none, and the author has publicly declined to add one ([grott#512](https://github.com/johanmeijer/grott/issues/512), still open). That rules out anything beyond running it as-is.
+- **Docker to run it as a Home Assistant add-on.** Fine on a NUC, wasteful for what is a small TCP listener.
+- **MQTT.** Another broker dependency and another hop between the inverter and the sensors that read it.
+
+None of those are why I actually moved off it, though. The real problem is that Grott's offline story doesn't work.
+
+## Why proxy mode can't go offline
+
+Grott's default mode is a proxy: it sits between your datalogger and Growatt's real server and forwards traffic both ways, patching in extra publishing (MQTT, in Home Assistant's case) on top. The plumbing that makes this a proxy is also what breaks it without internet.
+
+**It connects to Growatt before it'll even accept your datalogger.** `grottproxy.on_accept()` opens the upstream connection first and closes the datalogger's socket if that fails. No internet, no connection accepted.
+
+**Keeping the socket open isn't enough either.** I tried that first. The proxy never acknowledges the datalogger itself, the acknowledgement comes from the real Growatt server on the other end of the forward. With nothing upstream, the datalogger gets no ack, retries, and its records arrive mis-framed. The proxy has nothing to publish.
+
+So a patched proxy can't stand in for a server. Grott actually ships one, `grottserver`, that answers pings, handles time sync and acknowledges data records on its own. Its only gap is that it has no MQTT output, so on its own it can't feed Home Assistant.
+
+## What I tried first
+
+Rather than write my own thing straight away, I found a fork with clear redistribution rights ([Herbertmt978/grott](https://github.com/Herbertmt978/grott), which had sorted out permission with the original author) and [sent a PR](https://github.com/Herbertmt978/grott/pull/12) wiring `grottserver` into Grott's existing publishing pipeline instead of giving it a parallel one. Concretely: build a `Conf` at startup so MQTT settings and extensions come from the same config as the rest of Grott, and call `procdata()` for each record instead of publishing directly, so Home Assistant discovery keeps working exactly as it does in proxy mode.
+
+I verified it on my own hardware (a single-phase `SML0CGU03K` behind a ShineLan-X datalogger), with no upstream reachable: `grottserver` acknowledged records, `procdata()` published them, and sensors updated continuously the whole time. I cross-checked the numbers against the cloud integration while both ran side by side and they matched within a poll cycle.
+
+The PR is still open. And it wouldn't have fixed the license problem anyway, since I'd still be redistributing a derivative of code with no license attached to it. When I opened an issue on that same fork asking them to at least license their own additions, that's still open too.
+
+## What I built instead
+
+[growatt-datalogger](https://github.com/FezVrasta/growatt-datalogger): a Home Assistant integration and standalone Python library, MIT licensed, written from scratch. No Grott code, no Grott data tables, nothing carried over. It runs inside Home Assistant as its own local Growatt server on TCP 5279. You point your datalogger at Home Assistant instead of Growatt's cloud, and that's it: no add-on, no Docker, no MQTT broker in the middle.
+
+One thing fell out of studying the wire protocol properly that I didn't expect: Growatt's telemetry records are self-describing. After the serials and timestamp comes a group count, then each group states its own Modbus register range. Grott handles this by keeping roughly 35 per-model layout files plus a scoring heuristic to guess which one applies. This integration just reads the register numbers off the wire, so it needs about 4 register profiles instead of 35 model-specific ones, and new inverter models mostly fall into an existing profile rather than needing a new layout file written for them.
+
+A few other things worth calling out:
+
+- Sensors appear as the inverter reports them. Nothing to map by hand, nothing to configure per model.
+- It's not read-only. Settings the inverter documents become real controls in Home Assistant: AC charge, charge priority, battery charge windows, SOC limits, output power limit. Change them from an automation or a dashboard instead of the ShinePhone app.
+- The Energy Dashboard works with no template helpers, energy counters are classified correctly from the start.
+- Sensors keep their last reading overnight instead of going unavailable. Inverters stop reporting after sunset, and blanking every entity would put a gap in every history graph, every night.
+- The "Connected" sensor is silence-based, not socket-based. A datalogger doesn't hold a session open, it uploads, hangs up and redials every 2-3 minutes. Watching the socket would make a perfectly healthy setup flap all day, so it goes offline after 15 minutes without a record instead.
+- There's a service to adopt history from whatever you used before, Growatt's cloud, Grott, or a Modbus integration, so Energy Dashboard statistics carry over instead of starting from zero.
+- If you still want ShinePhone, there's an option to forward to Growatt's cloud as well. It's off by default, which is the whole point of doing this, but it's there.
+
+## Where it stands
+
+This replaces a well-established community tool with something I've validated on exactly one hardware profile so far, my own single-phase MIN/TL-X. The register profiles should cover the rest of the Protocol II family, but I haven't tested that on hardware I don't own.
+
+If you're running a Growatt datalogger and want to get it off the cloud, the repo is at [github.com/FezVrasta/growatt-datalogger](https://github.com/FezVrasta/growatt-datalogger). I'd genuinely like to hear from anyone running a three-phase or battery setup, since that's the part I can't validate myself.
