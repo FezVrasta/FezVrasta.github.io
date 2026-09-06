@@ -1,0 +1,43 @@
+---
+title: "Scrobbling an Apple TV that has no idea it's being scrobbled"
+date: 2026-09-06T10:00:00
+dek: "Every Trakt scrobbler needs the player to cooperate. Mine reads the media player Home Assistant already has, and works out the episode from the thumbnail."
+---
+
+Most of what I watch goes through an Apple TV: the Apple TV app, Disney+, Prime Video, NOW, and Plex through Infuse. My Trakt history only ever had the Infuse part of that, because Infuse scrobbles itself. Everything else didn't exist as far as Trakt was concerned, and a history that's missing most of what you watch isn't much of a history.
+
+Every Trakt scrobbler I found needs the player to cooperate. Kodi has an addon. Plex can talk to Trakt. Infuse has it built in. [trakt-scrobbler](https://github.com/iamkroot/trakt-scrobbler) sits on your computer and watches VLC or mpv. They all work, and none of them apply to the Disney+ app on an Apple TV. That app is a sealed box: no plugin, no setting, nothing to point at a server.
+
+So I stopped trying to make the player cooperate. Home Assistant already knows what the Apple TV is playing: title, artwork, position, and which app it's coming from, live, for every app on the box. The data was sitting there and nothing was using it.
+
+## Reading what the players actually say
+
+The catch is that every app describes what it's playing differently, and Home Assistant just passes that along.
+
+Plex and Jellyfin are easy, they fill in real fields for the show, season and episode. Infuse packs everything into the title, `Spider-Noir - S1 ∙ E1 - Entra nel mio ufficio`. Prime Video and Disney+ put the show name in one field and the episode reference in a completely different one, in whatever language your account is set to. NOW writes `Chernobyl Ep.05`, show and episode number in one string, with no season anywhere.
+
+I didn't guess at any of this. I pulled every distinct shape my TV had reported in 120 days of Home Assistant history, 357 of them, and wrote the parser against real data. The missing season is the case I'm happiest with. Instead of assuming season 1, the integration asks Trakt how many seasons the show has and fills it in only when the answer is exactly one. If there are several, it says nothing and lets the thumbnail matching have a go instead. A guess that's usually right is worse than no guess, because it writes to your history either way.
+
+And the Apple TV app itself gives you the worst case: a show name, and nothing else. No season, no episode, ever.
+
+## The thumbnails
+
+What the Apple TV app does give you is a picture. Not the show's poster, a frame from the episode you're actually watching. And it's the same still that shows up on that episode's page on Trakt, because both come from the same catalogue.
+
+So the integration stops trying to read an episode number and compares pictures instead. It shrinks both images down to a tiny grid, turns the brightness gradient into a fingerprint, and counts how many bits differ. In testing the correct episode came out 3 bits off out of 256, while every other episode of the show sat above 100. That's not a close call.
+
+A couple of things make it hold up better than I expected. The fingerprint is computed on brightness only, so Trakt's black and white copy of a still matches Apple's colour one just fine. And a match is only accepted when the winner is both close enough *and* clearly ahead of the runner-up. If two episodes are similar, it declines to answer rather than pick one.
+
+It also didn't work at all for the first two days, and I spent them tuning the matcher: loosening the threshold, checking whether Trakt even had stills for the show, half convinced the Apple TV was handing me show art after all. None of it was that. The code was rebuilding the artwork's address into a full URL and requesting it back over the network, at an address the Home Assistant container couldn't reach. The matcher was never being called once. Home Assistant's image endpoint turns out to be a thin wrapper around the player's own method, so it now reads those bytes in-process and never touches the network at all.
+
+## The key
+
+Trakt now gates registering an API application behind a paid VIP membership. Telling everyone to buy VIP before they can use a free integration kills it on arrival, so the integration uses the key that Trakt's own web app ships to every visitor. It's a public identifier sitting in plain text in the JavaScript they serve you, and it authorises the device login flow on its own.
+
+That key belongs to Trakt, not to me. They can rotate or rate-limit it whenever they like, and if they do, every install breaks at once. The integration re-reads it from the live site when the one it has stops working, so a rotation should heal itself, but that's damage control and not a promise. If you have VIP, you can bring your own app during setup and none of this applies to you.
+
+The other limitation: the thumbnail trick only works when the app hands over the episode's own still. Where an app shows generic key art there's nothing to match against, and it falls back to asking Trakt for your next unwatched episode. That's a guess, and it can be wrong. Mine once put S01E01 in my history while I was watching season two.
+
+One thing I didn't build but enjoy anyway: because the scrobble lands on Trakt as it happens, the Trakt app's Live Activity on my phone follows along with whatever the TV is playing.
+
+It's on GitHub as [ha-trakt-scrobbler](https://github.com/FezVrasta/ha-trakt-scrobbler), installable through HACS, MIT licensed. It's been tested hard against exactly one Apple TV, mine, so the part I can't answer is what the artwork looks like everywhere else. If you install it, I'd like to know which of your apps the thumbnail matching identifies correctly and which ones it can't.
