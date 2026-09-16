@@ -6,6 +6,7 @@ import ColonyField from '../components/ColonyField';
 import nivoraIcon from '../assets/apps/nivora.png';
 import voxmarkIcon from '../assets/apps/voxmark.png';
 import basalttyIcon from '../assets/apps/basaltty.png';
+import finalmenteIcon from '../assets/apps/finalmente.png';
 
 const apps = [
 	{
@@ -25,6 +26,15 @@ const apps = [
 		platforms: 'iOS · watchOS',
 		cta: 'App Store',
 		url: 'https://apps.apple.com/us/app/voxmark-voice-lyrics-cues/id6760473103',
+	},
+	{
+		name: 'Finalmente',
+		icon: finalmenteIcon,
+		blurb:
+			"Countdowns for the dates you're actually waiting for. Pick which units to show, from years down to seconds, and keep it on the home or lock screen.",
+		platforms: 'iOS · iPadOS',
+		cta: 'App Store',
+		url: 'https://apps.apple.com/us/app/finalmente/id6747331408',
 	},
 	{
 		name: 'Basaltty',
@@ -399,7 +409,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 
 	.app-grid {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 		gap: 16px;
 	}
 
@@ -672,10 +682,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		font-size: 13px;
 	}
 
-	@media (max-width: 900px) {
-		.list {
-			grid-template-columns: 1fr;
-		}
+	/* Below this the grid can no longer fit every app on one row, so go to
+	   full-width rows rather than stranding a single card on a second line. */
+	@media (max-width: 1160px) {
 		.app-grid {
 			grid-template-columns: 1fr;
 		}
@@ -693,6 +702,12 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		.app-cta {
 			align-self: center;
 			white-space: nowrap;
+		}
+	}
+
+	@media (max-width: 900px) {
+		.list {
+			grid-template-columns: 1fr;
 		}
 	}
 
