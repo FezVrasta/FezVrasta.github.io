@@ -1,7 +1,41 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ColonyField from '../components/ColonyField';
+import nivoraIcon from '../assets/apps/nivora.png';
+import voxmarkIcon from '../assets/apps/voxmark.png';
+import basalttyIcon from '../assets/apps/basaltty.png';
+
+const apps = [
+	{
+		name: 'Nivora',
+		icon: nivoraIcon,
+		blurb:
+			'Snow companion for skiers and snowboarders. Avalanche bulletins, weather, lift status and resort webcams in one place, plus the safety tools you actually need in the backpack.',
+		platforms: 'iOS',
+		cta: 'App Store',
+		url: 'https://apps.apple.com/us/app/nivora/id6468679836',
+	},
+	{
+		name: 'VoxMark',
+		icon: voxmarkIcon,
+		blurb:
+			'A digital lyric book for vocalists and coaches. Mark up breathing, dynamics and technique cues on a song, then follow them at your own pace.',
+		platforms: 'iOS · watchOS',
+		cta: 'App Store',
+		url: 'https://apps.apple.com/us/app/voxmark-voice-lyrics-cues/id6760473103',
+	},
+	{
+		name: 'Basaltty',
+		icon: basalttyIcon,
+		blurb:
+			"A terminal that follows you off the desk. The coding agent keeps running on your Mac while you answer it from the sofa, and the tabs name themselves using a model that never leaves the machine.",
+		platforms: 'macOS · iOS',
+		cta: 'Read more',
+		url: 'https://fezvrasta.github.io/basaltty/',
+	},
+];
 
 const workTabs = [
 	{
@@ -129,6 +163,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 			<header class="site-header">
 				<a href="/" class="logo">fezvrasta</a>
 				<nav class="site-nav">
+					<a href="#apps" class="hover-link">apps</a>
 					<a href="#work" class="hover-link">work</a>
 					<a href="#writing" class="hover-link">writing</a>
 					<a href="https://github.com/fezvrasta" class="hover-link">github</a>
@@ -143,6 +178,26 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 					Also wrote Popper.js, co-created Floating&nbsp;UI, and tinker with Home&nbsp;Assistant.
 				</p>
 				<p class="hero-hint">The colonies feed, grow, and outgrow the frame. Leave a trail for them.</p>
+			</section>
+
+			<section id="apps" class="section section-apps">
+				<h2 class="section-title">Apps</h2>
+				<p class="section-lede">
+					Things I build on the side, mostly because I wanted them to exist and nobody else had made them.
+				</p>
+				<div class="app-grid">
+					{apps.map((app) => (
+						<a href={app.url} class="app-card">
+							<Image src={app.icon} alt={`${app.name} app icon`} width={176} height={176} class="app-icon" loading="lazy" />
+							<span class="app-body">
+								<span class="app-name">{app.name}</span>
+								<span class="app-platforms">{app.platforms}</span>
+								<span class="app-blurb">{app.blurb}</span>
+							</span>
+							<span class="app-cta">{app.cta}</span>
+						</a>
+					))}
+				</div>
 			</section>
 
 			<section id="work" class="section">
@@ -338,6 +393,98 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		border-top: 1px solid rgba(255, 255, 255, 0.08);
 	}
 
+	.section-apps {
+		padding-bottom: 70px;
+	}
+
+	.app-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 16px;
+	}
+
+	.app-card {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 18px;
+		padding: 26px 24px 24px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 16px;
+		background: rgba(13, 14, 18, 0.34);
+		backdrop-filter: blur(2px);
+		transition:
+			background 260ms ease,
+			border-color 260ms ease,
+			transform 260ms ease;
+	}
+	.app-card:hover {
+		background: rgba(24, 27, 33, 0.72);
+		border-color: rgba(255, 255, 255, 0.16);
+		transform: translateY(-3px);
+	}
+
+	.app-icon {
+		width: 88px;
+		height: 88px;
+		border-radius: 21px;
+		box-shadow:
+			0 0 0 1px rgba(255, 255, 255, 0.08),
+			0 12px 28px rgba(0, 0, 0, 0.45);
+		transition: transform 260ms ease;
+	}
+	.app-card:hover .app-icon {
+		transform: scale(1.04);
+	}
+
+	.app-body {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1;
+	}
+
+	.app-name {
+		font-size: 25px;
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+	}
+
+	.app-platforms {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 0.02em;
+		color: #6f747f;
+	}
+
+	.app-blurb {
+		margin-top: 2px;
+		font-size: 15px;
+		line-height: 1.55;
+		color: #9a9ea8;
+		text-wrap: pretty;
+	}
+
+	.app-cta {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 0.02em;
+		color: #9a9ea8;
+		transition: color 200ms ease;
+	}
+	.app-cta::after {
+		content: '\2192';
+		display: inline-block;
+		margin-left: 7px;
+		transition: transform 260ms ease;
+	}
+	.app-card:hover .app-cta {
+		color: #ffffff;
+	}
+	.app-card:hover .app-cta::after {
+		transform: translateX(4px);
+	}
+
 	.section-writing {
 		padding-top: 90px;
 		border-top: none;
@@ -529,6 +676,24 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		.list {
 			grid-template-columns: 1fr;
 		}
+		.app-grid {
+			grid-template-columns: 1fr;
+		}
+		.app-card {
+			flex-direction: row;
+			align-items: flex-start;
+			gap: 22px;
+		}
+		.app-icon {
+			width: 64px;
+			height: 64px;
+			border-radius: 15px;
+			flex: none;
+		}
+		.app-cta {
+			align-self: center;
+			white-space: nowrap;
+		}
 	}
 
 	@media (max-width: 720px) {
@@ -547,6 +712,14 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		.post-date,
 		.row-meta {
 			padding-top: 0;
+		}
+		.app-card {
+			flex-direction: column;
+			gap: 16px;
+			padding: 22px 20px;
+		}
+		.app-cta {
+			align-self: flex-start;
 		}
 	}
 </style>
