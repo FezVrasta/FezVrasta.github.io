@@ -1,0 +1,94 @@
+---
+title: "Nobody ever rotated the key"
+date: 2026-09-22T10:00:00
+dek: "GitHub gave me two business days to erase a 32-character string from my repository and its entire history. Seven months later, E.ON are still using the same string, unchanged."
+---
+
+In February, GitHub Trust & Safety gave me two business days to remove a 32-character string from my repository and rewrite my git history to erase every trace of it, or they'd disable the repository.
+
+Yesterday I pulled the same 32 characters out of E.ON's Android app. Byte for byte identical. Seven months, and nobody had changed it.
+
+That single fact tells you what the takedown was about, because if you believe a key has leaked, the first thing you do is rotate it. Not the second thing. Everything else is cleanup you do *after* the leaked value stops working, and none of it means anything until then. E.ON didn't rotate it in February. They haven't rotated it since. Their login page still publishes keys of exactly that kind to anyone who loads it without logging in.
+
+So whatever was being defended, it wasn't the key.
+
+## How I came to have it
+
+E.ON's app shows me yesterday's electricity hour by hour, and nothing put those numbers into Home Assistant's Energy Dashboard. So in January I wrote an integration that does.
+
+Reaching their API needs two things beyond your own login: a hostname, and a subscription key identifying the client app. Neither authorises access to anybody's data, and both sit in the JavaScript E.ON serve to every visitor of their login page, no account required. I read them there and put them in `const.py`, lines 6 and 7.
+
+On 4 February, GitHub emailed me. Someone had reported the repository for posting private information without consent:
+
+> On lines 6 and 7 has exposed an API link and the access token for it
+
+Two business days, working tree and history both. GitHub doesn't tell you who filed it and I still don't know, but nobody except E.ON had a reason to. I asked twice which string they actually meant, and pointed out that a hostname is an address, visible in every DNS query anyone makes. Neither question got an answer. The clock kept running.
+
+So I complied, and it took the evening. Purge both strings from every commit, move the tags onto the rewritten commits, refactor the integration to read the values off E.ON's live page at runtime. Their instructions also require you to chase down every fork, since the commits survive there, so I filed a removal request for the three that existed.
+
+Which is where it turned silly. GitHub don't investigate forks themselves. The person filing the request does that, and supplies a working link to each individual file.
+
+> I was asked by you to remove that key, I didn't plan to until you forced me to do it. I have already removed the key from my repository and I don't think it's my responsibility to spend more of my time to chase whoever forked my code.
+
+That closed the ticket. Two of those three forks still have lines 6 and 7 today, real values in place, which is the second piece of evidence that nobody was ever worried about the string.
+
+The next day I asked the question I actually cared about, copying in a member of the Open Home Foundation. If a public hostname and a client identifier are private information, that applies to nearly every open source project talking to a third-party service. The reply:
+
+> For privacy and security reasons, we do not discuss our review process or the results of a specific investigation.
+
+## What was sitting next to it
+
+The key I was reported for wasn't alone in that file.
+
+The Wayback Machine has snapshots of the same public config going back to 2020, and every one through 2023 contains, served to anyone who opened the login page, without an account:
+
+- **Nexi API keys and secret keys.** Two full pairs, one for gas and one for power. Nexi is the processor that handles E.ON's card payments.
+- **PayPal production and sandbox identifiers**, again split by fuel.
+- **A Splunk ingest token**, with the host to send it to.
+- **Five more API keys** past the one I was reported for, including ones named `backoffice.key` and `unauthorized.key`.
+
+Take the Nexi pair alone. Nexi's own developer documentation says this, in italics, on the page explaining how their authentication works:
+
+> The secret API key should _never_ be used from the client side of your site / app for security reasons.
+
+E.ON were putting it on the client side of their site, fetchable without a login, for at least three years. That one isn't a judgement call about whether an identifier counts as a credential. It's the payment processor's written instruction, and the field is named `secretkey`.
+
+So put the two things side by side. A client identifier, in a free integration that reads a customer their own meter readings, got a Trust & Safety report, a two business day deadline, and a threat to delete the repository. The credentials authenticating their servers to a payment provider, in the same file, on the same page, got nothing at all.
+
+The payment entries are gone from today's copy. I have no way to tell whether those keys were rotated or just quietly deleted from a page, and given the one I can check was never rotated, I wouldn't assume. The file still hands nine keys to every visitor, including the one I was reported for.
+
+## What the takedown actually cost
+
+If the integration can't carry those two values, it has to go and get them. So that's what I wrote that evening: fetch them from E.ON's own login page at startup and read them out of the JavaScript, every install doing it for itself.
+
+It works, and it's a worse design than the one I was made to delete. A constant that never changes became a network call that has to succeed before anything else can happen, against a page I don't own and can't predict. I knew that when I wrote it. It was the only option that satisfied the notice.
+
+Then E.ON put that site behind Cloudflare, which answers any ordinary HTTP client with a 403. Fetching the config is the first thing both login and every hourly poll do, so when it started failing, all of it failed.
+
+Read that back slowly. The report didn't remove a risk. It took an integration that depended on two strings anyone could read, and made it depend instead on a live page controlled by the company that filed the report. Which then stopped serving it.
+
+That's the part I find hard to get past, but it isn't the expensive part. The expensive part is the seven months that followed. Issue #2 opened on 7 February, *Login Automatico non riuscito*, then five more people, then March, people trying older versions and comparing notes about what might have changed at E.ON's end.
+
+I didn't want to touch any of it. A two-day compliance deadline takes more out of a thing you built for yourself and put online in case it helped someone than I'd have guessed.
+
+Now set all of that against what the report achieved. The key stayed on the login page. It stayed in two of the forks. It stayed valid, valid enough that I pulled it out of their production app in September. The exposure never went down by a single byte. The only thing that changed is that a working integration stopped working for everyone who had it.
+
+## Why it goes this way
+
+I don't think anyone at E.ON was being malicious, and I don't think anyone weighed the two risks and chose wrong. I don't think they were ever weighed against each other at all.
+
+Something found their subscription key in a public GitHub repository and a report went out, because that's the response the process had available. Reading their own login page to ask what else was in it isn't a process anybody runs.
+
+That's the asymmetry, and it isn't about security. An outsider using your API is visible, attributable, and closeable in an afternoon by filling in a form. Your own payment credentials on a public URL are none of those things: finding them means auditing yourself, and fixing them means somebody internally saying out loud that they'd been there for three years. So the deadline landed on the free integration that reads a customer their own consumption data, and never on the part that could actually cost money.
+
+Which is how you end up with a security incident where the only measurable outcome was the destruction of something useful, and the key is still the key.
+
+## Where it stands
+
+I picked the project back up last weekend, and Cloudflare turned out not to be the only thing waiting. There's a new consent screen in the Auth0 flow. Bot detection is on and risk-scored, so a scripted login fails intermittently and reports itself as a wrong password, which is about the least helpful way it could fail.
+
+All of it landed on the one part of the integration the takedown had forced into existence. v1.8.0 went out yesterday, with a few releases since, and it works again.
+
+[eon-energia-italia-hass](https://github.com/FezVrasta/eon-energia-italia-hass) is MIT, installable through HACS, and the API client is a separate library now if you want to build something else with it.
+
+If you've had one of these land on you, I'd like to know whether pushing back ever changes anything. Mine got a two-day clock, a form letter, and a key that nobody bothered to change.
