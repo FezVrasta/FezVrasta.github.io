@@ -7,4 +7,7 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://fezvrasta.github.io',
   integrations: [mdx(), react()],
+  redirects: {
+    '/timber-empires': 'https://fezvrasta.github.io/TimberEmpires-Docs/',
+  },
 });

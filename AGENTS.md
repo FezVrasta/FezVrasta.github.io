@@ -53,6 +53,8 @@ Other traits to match:
   (a limitation, an admission) is exactly the kind of thing worth being upfront about, the fix is to state the fact
   and stop, not to comment on the act of stating it.
 - Plain, technical vocabulary. No marketing buzzwords, no hype adjectives ("amazing", "cutting-edge", "seamless").
+- No copywriter constructions. Never frame a thing with "as a..." ("Timberborn, as a game you can lose"), and no
+  taglines built on a twist or a reframe. Say it plainly: "Multiplayer Timberborn where you can lose."
 - Contractions throughout: "I'll", "don't", "it's", "I'm".
 - States facts and decisions plainly, without hedging: "Fixed in v0.19.0." not "This should hopefully be resolved
   now." Own the claim.
