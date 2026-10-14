@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Timber Empires</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://fezvrasta.github.io/TimberEmpires-Docs/">
+<meta http-equiv="refresh" content="0;url=https://fezvrasta.github.io/TimberEmpires-Docs/">
+<style>
+  html { background: #f1e7d2; }
+  html.dark { background: #140f0b; }
+</style>
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('te-theme'); } catch (e) {}
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (t === 'dark') document.documentElement.className = 'dark';
+    location.replace('https://fezvrasta.github.io/TimberEmpires-Docs/' + location.search + location.hash);
+  })();
+</script>
+</head>
+<body></body>
+</html>
